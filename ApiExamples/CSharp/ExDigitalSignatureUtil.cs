@@ -174,41 +174,52 @@ namespace ApiExamples
         }
 
 
-        #region Sign document
+        #region Example for sign document by EDS in system of document flow
         //ExStart
         //ExFor:DigitalSignatureUtil.Sign(String, String, CertificateHolder, SignOptions)
         //ExFor:SignOptions
         //ExFor:SignOptions.SignatureLineId
         //ExFor:SignOptions.SignatureLineImage
-        //ExSummary:Shows how to sign a document.
-
+        //ExSummary:Shows how to implement document signing by EDS in system of document flow. Here the initial stage of the stated above example 
+        //in which the document is created and it is sent to the DB with signatures of approving divisions.
+        
+        //Prepare test table with persons of approving divisions
         static readonly DataTable SignPersonsTable = GetSignPersonsTable();
+
+        //Prepare test table for saving signed documents.
         static readonly DataTable SignDocumentsTable = GetSignDocumentsTable();
 
+        /// <summary>
+        /// Creates new document signed with any you need persons from responsible divisions.
+        /// </summary>
         [Test]
-        public void FirstSignDocument()
+        public void FirstSignDocumentAndInsertInDb()
         {
-            // Load scanned document.
+            //Load scanned document.
             Document doc = new Document(MyDir + "Document.doc");
             DocumentBuilder builder = new DocumentBuilder(doc);
 
-            //Get path to document wich we'll be sign
+            //Set path to document which we'll be signing
             string pathToSignDocument = MyDir + "SignDocument.doc";
 
-            // Saves just scanned document into a data base. Signs it with document creator and initial signer certificates.
+            //Signs it with document creator.
             SignDocument(builder, "Dhocs", pathToSignDocument);
 
+            //Get signing document
             Document signedDocument = new Document(pathToSignDocument);
 
-            // Write created and signed document into a data base.
+            // Write signed document in data base.
             WriteDocumentToDb(signedDocument);
 
             // In next steps, the document should be signed with approval sides and CEO. It will be achieved the same way as 
-            // initial document is created using Aspose.Words API above.
+            // initial document is created using Aspose.Words API above. See SignDocumentFromDbAndUpdate method for this.
         }
 
+        /// <summary>
+        /// Signing document which in data base and update it.
+        /// </summary>
         [Test]
-        public void SignDocumentFromDb()
+        public void SignDocumentFromDbAndUpdate()
         {
             //Get path to document wich we'll be sign
             string pathToSignDocument = MyDir + "SignDocument.doc";
@@ -217,42 +228,41 @@ namespace ApiExamples
             Document signedDocument = GetDocumentFromDb(pathToSignDocument);
             DocumentBuilder builder = new DocumentBuilder(signedDocument);
 
-            // Saves just scanned document into a data base. Signs it with document creator and initial signer certificates.
+            //Signs it with initial signer certificates.
             SignDocument(builder, "Hocs", pathToSignDocument);
 
+            //Get signing document
             signedDocument = new Document(pathToSignDocument);
 
-            // Write created and signed document into a data base.
+            // Write signed document in data base.
             WriteDocumentToDb(signedDocument);
-
-            // In next steps, the document should be signed with approval sides and CEO. It will be achieved the same way as 
-            // initial document is created using Aspose.Words API above.
         }
 
         /// <summary>
         /// Creates new document signed with sign person.
         /// </summary>
-        public void SignDocument(DocumentBuilder builder, string signerPerson, string pathToSignDocument)
+        private static void SignDocument(DocumentBuilder builder, string signerPerson, string pathToSignDocument)
         {
+            //Add signature line for document creator.
             SignatureLine signLineDocSigner = builder.InsertSignatureLine(new SignatureLineOptions()).SignatureLine;
-            
             signLineDocSigner.Id = GetIdByName(signerPerson);
 
-            CertificateHolder certificateHolderSignerPerson = CertificateHolder.Create(MyDir + "certificate.pfx", "123456");
+            //Sign document with sign person certificate and image of its scanned signature.
+            CertificateHolder certificateHolderSignerPerson = GetCertificateHolder(MyDir + "certificate.pfx", "123456");
 
             SignOptions signOptions = new SignOptions();
-
             signOptions.SignatureLineId = signLineDocSigner.Id;
             signOptions.SignatureLineImage = GetSignImageFromDb(signerPerson);
 
-            if (builder.Document.OriginalFileName != null)
-            {
-                DigitalSignatureUtil.Sign(builder.Document.OriginalFileName, pathToSignDocument, certificateHolderSignerPerson, signOptions);
-            }
-            else
-            {
-                DigitalSignatureUtil.Sign(pathToSignDocument, pathToSignDocument, certificateHolderSignerPerson, signOptions);
-            }
+            DigitalSignatureUtil.Sign(builder.Document.OriginalFileName ?? pathToSignDocument, pathToSignDocument, certificateHolderSignerPerson, signOptions);
+        }
+
+        /// <summary>
+        /// Create certificate holder with person certificate.
+        /// </summary>
+        private static CertificateHolder GetCertificateHolder(string pathToCertificate, string certificatePassword)
+        {
+            return CertificateHolder.Create(pathToCertificate, certificatePassword);
         }
 
         /// <summary>
@@ -270,8 +280,6 @@ namespace ApiExamples
         /// </summary>
         private static Guid GetIdByName(string userName)
         {
-            // This is just an example.
-            // Actually, this method should return value from a data base.
             Guid signerPersonGuid = (from row in SignPersonsTable.AsEnumerable() 
                                       where row.Field<string>("Name") == userName 
                                       select row.Field<Guid>("Id")).FirstOrDefault();
@@ -280,12 +288,10 @@ namespace ApiExamples
         }
 
         /// <summary>
-        /// Writes document to a data base.
+        /// Writes signed document to data base.
         /// </summary>
         private static void WriteDocumentToDb(Document signDocument)
         {
-            // This just an example.
-            // Actually, it will save document bytes into a data base.
             MemoryStream stream = new MemoryStream();
             signDocument.Save(stream, SaveFormat.Docx);
 
@@ -293,6 +299,7 @@ namespace ApiExamples
 
             DataRow dr = SignDocumentsTable.Select(string.Format("Id = '{0}'", Guid.Parse("2263104B-1083-4988-B571-B356A2C7F51D"))).FirstOrDefault();
             
+            //Assert, if this signed document are already in data base, then we just update this document newer, else we create new row in table
             if (dr != null)
             {
                 dr["Document"] = doc; //changes the document
@@ -304,12 +311,10 @@ namespace ApiExamples
         }
 
         /// <summary>
-        /// Get document from data base.
+        /// Get signed document from data base.
         /// </summary>
         private static Document GetDocumentFromDb(string signDocumentName)
         {
-            // This just an example.
-            // Actually, it will save document bytes into a data base.
             Byte[] signDocument = (from row in SignDocumentsTable.AsEnumerable()
                                    where row.Field<string>("FileName") == signDocumentName
                                      select row.Field<Byte[]>("Document")).FirstOrDefault();
@@ -320,6 +325,9 @@ namespace ApiExamples
             return doc;
         }
 
+        /// <summary>
+        /// Creates new document signed with any you need persons from responsible divisions.
+        /// </summary>
         private static DataTable GetSignPersonsTable()
         {
             // Create a test DataTable with two columns and a few rows.
@@ -335,18 +343,19 @@ namespace ApiExamples
             column = new DataColumn("The official", typeof(System.String));
             table.Columns.Add(column);
 
-            column = new DataColumn("Password", typeof(System.String));
-            table.Columns.Add(column);
-
-            table.Rows.Add(new object[] { Guid.Parse("CDAA3044-8017-4E07-BFF4-93EA14A3A6C9"), "Hocs", "Head of Corporate Services", "123" });
-            table.Rows.Add(new object[] { Guid.Parse("1C22DFF1-B98E-4F65-888F-D55F9A968CD3"), "Dhocs", "Deputy Head of Corporate Services", "1234" });
-            table.Rows.Add(new object[] { Guid.Parse("C1DE3C2C-B2F8-4952-96BE-D300FBB9D26B"), "Hofd", "Head of Finance department", "12345" });
-            table.Rows.Add(new object[] { Guid.Parse("0A31FD51-46AF-4600-A188-64887881EC47"), "Hoad", "Head of Accounts department", "123456" });
-            table.Rows.Add(new object[] { Guid.Parse("409DB46E-4172-4679-ACDE-D78DDB18214F"), "Hdoit", "Head Department of IT", "1234567" });
+            //Create some tests persons from responsible divisions
+            table.Rows.Add(new object[] { Guid.Parse("CDAA3044-8017-4E07-BFF4-93EA14A3A6C9"), "Hocs", "Head of Corporate Services"});
+            table.Rows.Add(new object[] { Guid.Parse("1C22DFF1-B98E-4F65-888F-D55F9A968CD3"), "Dhocs", "Deputy Head of Corporate Services" });
+            table.Rows.Add(new object[] { Guid.Parse("C1DE3C2C-B2F8-4952-96BE-D300FBB9D26B"), "Hofd", "Head of Finance department" });
+            table.Rows.Add(new object[] { Guid.Parse("0A31FD51-46AF-4600-A188-64887881EC47"), "Hoad", "Head of Accounts department" });
+            table.Rows.Add(new object[] { Guid.Parse("409DB46E-4172-4679-ACDE-D78DDB18214F"), "Hdoit", "Head Department of IT" });
 
             return table;
         }
 
+        /// <summary>
+        /// Creates new document signed with any you need persons from responsible divisions.
+        /// </summary>
         private static DataTable GetSignDocumentsTable()
         {
             // Create a test DataTable with two columns and a few rows.
@@ -361,8 +370,6 @@ namespace ApiExamples
 
             column = new DataColumn("Document", typeof(System.Byte[]));
             table.Columns.Add(column);
-
-            table.AcceptChanges();
 
             return table;
         }
