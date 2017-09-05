@@ -7,9 +7,10 @@
 
 using System;
 using System.Data;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Aspose.Words;
 using Aspose.Words.Drawing;
 using NUnit.Framework;
@@ -173,42 +174,40 @@ namespace ApiExamples
             Assert.That(() => DigitalSignatureUtil.Sign(doc.OriginalFileName, outputDocFileName, null, "Comment", DateTime.Now, "docPassword"), Throws.TypeOf<NullReferenceException>());
         }
 
-
-        #region Example for sign document by EDS in system of document flow
         //ExStart
         //ExFor:DigitalSignatureUtil.Sign(String, String, CertificateHolder, SignOptions)
         //ExFor:SignOptions
         //ExFor:SignOptions.SignatureLineId
         //ExFor:SignOptions.SignatureLineImage
-        //ExSummary:Shows how to implement document signing by EDS in system of document flow. Here the initial stage of the stated above example 
-        //in which the document is created and it is sent to the DB with signatures of approving divisions.
-        
-        //Prepare test table with persons of approving divisions
+        //ExSummary:Shows how to implement document signing by any person that you need. Here the initial stage of the stated above example 
+        //in which the document is created and it is sent to the database with signatures of approving divisions.
+
+        //Preparation test table with persons of approving divisions.
         static readonly DataTable SignPersonsTable = GetSignPersonsTable();
 
-        //Prepare test table for saving signed documents.
+        //Preparation test table for saving signed documents.
         static readonly DataTable SignDocumentsTable = GetSignDocumentsTable();
 
         /// <summary>
-        /// Creates new document signed with any you need persons from responsible divisions.
+        /// Creates new document, signed by any persons from responsible divisions.
         /// </summary>
         [Test]
-        public void FirstSignDocumentAndInsertInDb()
+        public void FirstSigningDocumentAndInsertInDb()
         {
             //Load scanned document.
             Document doc = new Document(MyDir + "Document.doc");
             DocumentBuilder builder = new DocumentBuilder(doc);
 
-            //Set path to document which we'll be signing
-            string pathToSignDocument = MyDir + "SignDocument.doc";
+            //Set path to the document that will be signed.
+            string pathToSignedDocument = MyDir + "SignDocument.doc";
 
-            //Signs it with document creator.
-            SignDocument(builder, "Dhocs", pathToSignDocument);
+            //Let it be signed by the 'Deputy Head of Corporate Services'.
+            SignDocument(builder, "Dhocs", pathToSignedDocument);
 
-            //Get signing document
-            Document signedDocument = new Document(pathToSignDocument);
+            //Get a signed document.
+            Document signedDocument = new Document(pathToSignedDocument);
 
-            // Write signed document in data base.
+            //Write signed document into a database.
             WriteDocumentToDb(signedDocument);
 
             // In next steps, the document should be signed with approval sides and CEO. It will be achieved the same way as 
@@ -216,49 +215,59 @@ namespace ApiExamples
         }
 
         /// <summary>
-        /// Signing document which in data base and update it.
+        /// Signing document that are in database and update it.
         /// </summary>
         [Test]
-        public void SignDocumentFromDbAndUpdate()
+        public void SigningDocumentFromDbAndUpdate()
         {
-            //Get path to document wich we'll be sign
-            string pathToSignDocument = MyDir + "SignDocument.doc";
+            //Set path to the document that will be signed.
+            string pathToSignedDocument = MyDir + "SignDocument.doc";
 
-            // Load signed document from data base.
-            Document signedDocument = GetDocumentFromDb(pathToSignDocument);
+            //Load signed document from a data base.
+            Document signedDocument = GetDocumentFromDb(pathToSignedDocument);
             DocumentBuilder builder = new DocumentBuilder(signedDocument);
 
-            //Signs it with initial signer certificates.
-            SignDocument(builder, "Hocs", pathToSignDocument);
+            //Let it be signed by the 'Head of Corporate Services'.
+            SignDocument(builder, "Hocs", pathToSignedDocument);
 
-            //Get signing document
-            signedDocument = new Document(pathToSignDocument);
+            //Get a signed document.
+            signedDocument = new Document(pathToSignedDocument);
 
-            // Write signed document in data base.
+            //Write signed document into a database.
             WriteDocumentToDb(signedDocument);
         }
 
         /// <summary>
-        /// Creates new document signed with sign person.
+        /// Creates new document signed with responsible person.
         /// </summary>
-        private static void SignDocument(DocumentBuilder builder, string signerPerson, string pathToSignDocument)
+        private static void SignDocument(DocumentBuilder builder, string signerPerson, string pathToSignedDocument)
         {
-            //Add signature line for document creator.
-            SignatureLine signLineDocSigner = builder.InsertSignatureLine(new SignatureLineOptions()).SignatureLine;
-            signLineDocSigner.Id = GetIdByName(signerPerson);
+            SignatureLineOptions options = new SignatureLineOptions();
+            options.Signer = signerPerson;
+            options.SignerTitle = GetPositionByName(signerPerson);
+            options.ShowDate = true;
+            options.DefaultInstructions = false;
+            options.Instructions = "This is the test signature line";
+            options.AllowComments = true;
 
-            //Sign document with sign person certificate and image of its scanned signature.
-            CertificateHolder certificateHolderSignerPerson = GetCertificateHolder(MyDir + "certificate.pfx", "123456");
+            //Add signature line for responsible person.
+            SignatureLine signatureLine = builder.InsertSignatureLine(options).SignatureLine;
+            signatureLine.Id = GetIdByName(signerPerson);
+
+            builder.Document.Save(pathToSignedDocument);
+
+            //Sign document with responsible person certificate and image of its scanned signature.
+            CertificateHolder certificateHolderSignerPerson = GetCertificateHolder(MyDir + "morzal.pfx", "aw");
 
             SignOptions signOptions = new SignOptions();
-            signOptions.SignatureLineId = signLineDocSigner.Id;
+            signOptions.SignatureLineId = signatureLine.Id;
             signOptions.SignatureLineImage = GetSignImageFromDb(signerPerson);
 
-            DigitalSignatureUtil.Sign(builder.Document.OriginalFileName ?? pathToSignDocument, pathToSignDocument, certificateHolderSignerPerson, signOptions);
+            DigitalSignatureUtil.Sign(builder.Document.OriginalFileName ?? pathToSignedDocument, pathToSignedDocument, certificateHolderSignerPerson, signOptions);
         }
 
         /// <summary>
-        /// Create certificate holder with person certificate.
+        /// Creates certificate holder with responsible person certificate.
         /// </summary>
         private static CertificateHolder GetCertificateHolder(string pathToCertificate, string certificatePassword)
         {
@@ -266,17 +275,31 @@ namespace ApiExamples
         }
 
         /// <summary>
-        /// Returns image bytes of the scanned signature for the specified user from the data base.
+        /// Returns image bytes of the scanned signature for the specified user from the database by the specified <paramref name="userName"/>.
         /// </summary>
         private static byte[] GetSignImageFromDb(string userName)
         {
-            // This is just an example.
-            // Actually, it will return image bytes from a data base.
-            return Encoding.UTF8.GetBytes(userName);
+            //Get signed document from a database by 'FileName'.
+            Byte[] image = (from row in SignDocumentsTable.AsEnumerable()
+                                     where row.Field<string>("Name") == userName
+                                     select row.Field<Byte[]>("Image")).FirstOrDefault();
+
+            return image;
         }
 
         /// <summary>
-        /// Returns identifier of the user from the data base by the specified <paramref name="userName"/>.
+        /// Get image bytes for saving into a database.
+        /// </summary>
+        private static byte[] imageToByteArray(Image imageIn)
+        {
+            MemoryStream ms = new MemoryStream();
+            imageIn.Save(ms, ImageFormat.Png);
+
+            return ms.ToArray();
+        }
+
+        /// <summary>
+        /// Returns identifier of the user from the database by the specified <paramref name="userName"/>.
         /// </summary>
         private static Guid GetIdByName(string userName)
         {
@@ -288,49 +311,63 @@ namespace ApiExamples
         }
 
         /// <summary>
-        /// Writes signed document to data base.
+        /// Returns position of the user from the database by the specified <paramref name="userName"/>.
         /// </summary>
-        private static void WriteDocumentToDb(Document signDocument)
+        private static string GetPositionByName(string userName)
         {
+            string signerPersonPosition = (from row in SignPersonsTable.AsEnumerable()
+                                     where row.Field<string>("Name") == userName
+                                     select row.Field<string>("Position")).FirstOrDefault();
+
+            return signerPersonPosition;
+        }
+
+        /// <summary>
+        /// Writes signed document into a database.
+        /// </summary>
+        private static void WriteDocumentToDb(Document signedDocument)
+        {
+            //Create stream from signed document.
             MemoryStream stream = new MemoryStream();
-            signDocument.Save(stream, SaveFormat.Docx);
+            signedDocument.Save(stream, SaveFormat.Docx);
 
             byte[] doc = stream.ToArray();
 
-            DataRow dr = SignDocumentsTable.Select(string.Format("Id = '{0}'", Guid.Parse("2263104B-1083-4988-B571-B356A2C7F51D"))).FirstOrDefault();
+            DataRow dbSignedDocument = SignDocumentsTable.Select(string.Format("Id = '{0}'", Guid.Parse("2263104B-1083-4988-B571-B356A2C7F51D"))).FirstOrDefault();
             
-            //Assert, if this signed document are already in data base, then we just update this document newer, else we create new row in table
-            if (dr != null)
+            //If this signed document are already exists, then we just update this document on new, else create new row in table.
+            if (dbSignedDocument != null)
             {
-                dr["Document"] = doc; //changes the document
+                dbSignedDocument["Document"] = doc; //Changes the document.
             }
             else
             {
-                SignDocumentsTable.Rows.Add(new object[] { Guid.Parse("2263104B-1083-4988-B571-B356A2C7F51D"), signDocument.OriginalFileName, doc }); 
+                SignDocumentsTable.Rows.Add(new object[] { Guid.Parse("2263104B-1083-4988-B571-B356A2C7F51D"), signedDocument.OriginalFileName, doc }); //Add new row.
             }
         }
 
         /// <summary>
-        /// Get signed document from data base.
+        /// Get signed document from a database.
         /// </summary>
-        private static Document GetDocumentFromDb(string signDocumentName)
+        private static Document GetDocumentFromDb(string signedDocumentName)
         {
-            Byte[] signDocument = (from row in SignDocumentsTable.AsEnumerable()
-                                   where row.Field<string>("FileName") == signDocumentName
+            //Get signed document from a database by 'FileName'.
+            Byte[] signedDocument = (from row in SignDocumentsTable.AsEnumerable()
+                                     where row.Field<string>("FileName") == signedDocumentName
                                      select row.Field<Byte[]>("Document")).FirstOrDefault();
 
-            MemoryStream stream = new MemoryStream(signDocument);
-            Document doc = new Document(stream);
+            //Generate new document from a stream.
+            MemoryStream stream = new MemoryStream(signedDocument);
+            Document signedDocumentFromDb = new Document(stream);
 
-            return doc;
+            return signedDocumentFromDb;
         }
 
         /// <summary>
-        /// Creates new document signed with any you need persons from responsible divisions.
+        /// Creates new table with responsible persons.
         /// </summary>
         private static DataTable GetSignPersonsTable()
         {
-            // Create a test DataTable with two columns and a few rows.
             DataTable table = new DataTable("SignPersons");
 
             DataColumn column = new DataColumn("Id", typeof(System.Guid));
@@ -340,25 +377,28 @@ namespace ApiExamples
             column = new DataColumn("Name", typeof(System.String));
             table.Columns.Add(column);
 
-            column = new DataColumn("The official", typeof(System.String));
+            column = new DataColumn("Position", typeof(System.String));
             table.Columns.Add(column);
 
-            //Create some tests persons from responsible divisions
-            table.Rows.Add(new object[] { Guid.Parse("CDAA3044-8017-4E07-BFF4-93EA14A3A6C9"), "Hocs", "Head of Corporate Services"});
-            table.Rows.Add(new object[] { Guid.Parse("1C22DFF1-B98E-4F65-888F-D55F9A968CD3"), "Dhocs", "Deputy Head of Corporate Services" });
-            table.Rows.Add(new object[] { Guid.Parse("C1DE3C2C-B2F8-4952-96BE-D300FBB9D26B"), "Hofd", "Head of Finance department" });
-            table.Rows.Add(new object[] { Guid.Parse("0A31FD51-46AF-4600-A188-64887881EC47"), "Hoad", "Head of Accounts department" });
-            table.Rows.Add(new object[] { Guid.Parse("409DB46E-4172-4679-ACDE-D78DDB18214F"), "Hdoit", "Head Department of IT" });
+            column = new DataColumn("Image", typeof(System.Byte[]));
+            table.Columns.Add(column);
+
+            Image img = Image.FromFile(MyDir + @"\Images\LogoSmall.png");
+            
+            table.Rows.Add(new object[] { Guid.Parse("CDAA3044-8017-4E07-BFF4-93EA14A3A6C9"), "Hocs", "Head of Corporate Services", imageToByteArray(img) });
+            table.Rows.Add(new object[] { Guid.Parse("1C22DFF1-B98E-4F65-888F-D55F9A968CD3"), "Dhocs", "Deputy Head of Corporate Services", imageToByteArray(img) });
+            table.Rows.Add(new object[] { Guid.Parse("C1DE3C2C-B2F8-4952-96BE-D300FBB9D26B"), "Hofd", "Head of Finance department", imageToByteArray(img) });
+            table.Rows.Add(new object[] { Guid.Parse("0A31FD51-46AF-4600-A188-64887881EC47"), "Hoad", "Head of Accounts department", imageToByteArray(img) });
+            table.Rows.Add(new object[] { Guid.Parse("409DB46E-4172-4679-ACDE-D78DDB18214F"), "Hdoit", "Head Department of IT", imageToByteArray(img) });
 
             return table;
         }
 
         /// <summary>
-        /// Creates new document signed with any you need persons from responsible divisions.
+        /// Creates table for saving signed documents.
         /// </summary>
         private static DataTable GetSignDocumentsTable()
         {
-            // Create a test DataTable with two columns and a few rows.
             DataTable table = new DataTable("SignDocuments");
 
             DataColumn column = new DataColumn("Id", typeof(System.Guid));
@@ -374,6 +414,5 @@ namespace ApiExamples
             return table;
         }
         //ExEnd
-        #endregion
     }
 }
