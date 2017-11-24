@@ -102,33 +102,33 @@ namespace ApiExamples
             DigitalSignatureUtil.Sign(doc.OriginalFileName, outputDocFileName, ch, "Comment", DateTime.Now, "docPassword1");
         }
 
-        [Test]
-        public void SingDocumentWithPasswordDecrypring()
-        {
-            //ExStart
-            //ExFor:DigitalSignatureUtil.Sign(String, String, CertificateHolder, String, DateTime)
-            //ExFor:DigitalSignatureUtil.Sign(Stream, Stream, CertificateHolder, String, DateTime)
-            //ExSummary:Shows how to sign encrypted documents
-            // Create certificate holder from a file.
-            CertificateHolder ch = CertificateHolder.Create(MyDir + "certificate.pfx", "123456");
+        //[Test]
+        //public void SingDocumentWithPasswordDecrypring()
+        //{
+        //    //ExStart
+        //    //ExFor:DigitalSignatureUtil.Sign(String, String, CertificateHolder, String, DateTime)
+        //    //ExFor:DigitalSignatureUtil.Sign(Stream, Stream, CertificateHolder, String, DateTime)
+        //    //ExSummary:Shows how to sign encrypted documents
+        //    // Create certificate holder from a file.
+        //    CertificateHolder ch = CertificateHolder.Create(MyDir + "certificate.pfx", "123456");
 
-            //ByDocument
-            Document doc = new Document(MyDir + "Document.Encrypted.docx", new LoadOptions("docPassword"));
-            string outputDocFileName = MyDir + @"\Artifacts\Document.Encrypted.docx";
+        //    //ByDocument
+        //    Document doc = new Document(MyDir + "Document.Encrypted.docx", new LoadOptions("docPassword"));
+        //    string outputDocFileName = MyDir + @"\Artifacts\Document.Encrypted.docx";
 
-            // Digitally sign encrypted with "docPassword" document in the specified path.
-            DigitalSignatureUtil.Sign(doc.OriginalFileName, outputDocFileName, ch, "Comment", DateTime.Now, "docPassword");
+        //    // Digitally sign encrypted with "docPassword" document in the specified path.
+        //    DigitalSignatureUtil.Sign(doc.OriginalFileName, outputDocFileName, ch, "Comment", DateTime.Now, "docPassword");
 
-            // Open encrypted document from a file.
-            Document signedDoc = new Document(outputDocFileName, new LoadOptions("docPassword"));
+        //    // Open encrypted document from a file.
+        //    Document signedDoc = new Document(outputDocFileName, new LoadOptions("docPassword"));
 
-            // Check that encrypted document was successfully signed.
-            DigitalSignatureCollection signatures = signedDoc.DigitalSignatures;
-            if (signatures.IsValid && (signatures.Count > 0))
-            {
-                Assert.Pass(); //The document was signed successfully
-            }
-        }
+        //    // Check that encrypted document was successfully signed.
+        //    DigitalSignatureCollection signatures = signedDoc.DigitalSignatures;
+        //    if (signatures.IsValid && (signatures.Count > 0))
+        //    {
+        //        Assert.Pass(); //The document was signed successfully
+        //    }
+        //}
 
         [Test]
         public void SingStreamDocumentWithPasswordDecrypring()

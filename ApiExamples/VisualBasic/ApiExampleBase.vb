@@ -1,18 +1,14 @@
-' Copyright (c) 2001-2016 Aspose Pty Ltd. All Rights Reserved.
+﻿' Copyright (c) 2001-2016 Aspose Pty Ltd. All Rights Reserved.
 '
 ' This file is part of Aspose.Words. The source code in this file
 ' is only intended as a supplement to the documentation, and is provided
 ' "as is", without warranty of any kind, either expressed or implied.
 '////////////////////////////////////////////////////////////////////////
 
-
-Imports Microsoft.VisualBasic
 Imports System
 Imports System.IO
 Imports System.Reflection
-
 Imports Aspose.Words
-
 Imports NUnit.Framework
 
 Namespace ApiExamples
@@ -22,24 +18,20 @@ Namespace ApiExamples
 	Public Class ApiExampleBase
 		Private ReadOnly dirPath As String = MyDir & "\Artifacts\"
 
-		<TestFixtureSetUp> _
+		<SetUp>
 		Public Sub SetUp()
 			SetUnlimitedLicense()
 
-			If (Not Directory.Exists(dirPath)) Then
+			If Not Directory.Exists(dirPath) Then
+				'Create new empty directory
 				Directory.CreateDirectory(dirPath)
 			End If
 		End Sub
 
-		<TestFixtureTearDown> _
+		<TearDown>
 		Public Sub TearDown()
-			'Delete all files from dir
-            For Each file In Directory.GetFiles(dirPath)
-                IO.File.Delete(file)
-            Next
-
-			'Delete empty folder
-			Directory.Delete(dirPath)
+			'Delete all dirs and files from directory
+			Directory.Delete(dirPath, True)
 		End Sub
 
 		Friend Shared Sub SetUnlimitedLicense()
@@ -53,17 +45,17 @@ Namespace ApiExamples
 			End If
 		End Sub
 
-	   Friend Shared Sub RemoveLicense()
+		Friend Shared Sub RemoveLicense()
 			Dim license As New License()
 			license.SetLicense("")
-	   End Sub
+		End Sub
 
 		''' <summary>
 		''' Returns the assembly directory correctly even if the assembly is shadow-copied.
 		''' </summary>
-		Private Shared Function GetAssemblyDir(ByVal [assembly] As System.Reflection.Assembly) As String
+		Private Shared Function GetAssemblyDir(ByVal assembly As System.Reflection.Assembly) As String
 			' CodeBase is a full URI, such as file:///x:\blahblah.
-			Dim uri As New Uri([assembly].CodeBase)
+			Dim uri As New Uri(assembly.CodeBase)
 			Return Path.GetDirectoryName(uri.LocalPath) + Path.DirectorySeparatorChar
 		End Function
 
@@ -96,8 +88,8 @@ Namespace ApiExamples
 
 		Shared Sub New()
 			gAssemblyDir = GetAssemblyDir(System.Reflection.Assembly.GetExecutingAssembly())
-			gMyDir = New Uri(New Uri(gAssemblyDir), "../../../Data/").LocalPath
-			gDatabaseDir = New Uri(New Uri(gAssemblyDir), "../../../Data/Database/").LocalPath
+			gMyDir = (New Uri(New Uri(gAssemblyDir), "../../../Data/")).LocalPath
+			gDatabaseDir = (New Uri(New Uri(gAssemblyDir), "../../../Data/Database/")).LocalPath
 		End Sub
 
 		Private Shared ReadOnly gAssemblyDir As String
@@ -107,6 +99,6 @@ Namespace ApiExamples
 		''' <summary>
 		''' This is where the test license is on my development machine.
 		''' </summary>
-		Friend Const TestLicenseFileName As String = "X:\awuex\Licenses\Aspose.Total.lic"
+		Friend Const TestLicenseFileName As String = "X:\awnet\TestData\Licenses\Aspose.Total.lic"
 	End Class
 End Namespace

@@ -13,7 +13,7 @@ using NUnit.Framework;
 
 namespace SigningDocumentExample
 {
-    public class ApiExampleBase
+    public class Base
     {
         private readonly string dirPath = MyDir + @"\Artifacts\";
 
@@ -58,7 +58,7 @@ namespace SigningDocumentExample
             get { return gMyDir; }
         }
 
-        static ApiExampleBase()
+        static Base()
         {
             gAssemblyDir = GetAssemblyDir(Assembly.GetExecutingAssembly());
             gMyDir = new Uri(new Uri(gAssemblyDir), @"../../../Data/").LocalPath;

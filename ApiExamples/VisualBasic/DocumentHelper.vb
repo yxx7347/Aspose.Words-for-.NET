@@ -1,28 +1,26 @@
-' Copyright (c) 2001-2016 Aspose Pty Ltd. All Rights Reserved.
+﻿' Copyright (c) 2001-2016 Aspose Pty Ltd. All Rights Reserved.
 '
 ' This file is part of Aspose.Words. The source code in this file
 ' is only intended as a supplement to the documentation, and is provided
 ' "as is", without warranty of any kind, either expressed or implied.
 '////////////////////////////////////////////////////////////////////////
 
-
-Imports Microsoft.VisualBasic
-Imports System
 Imports Aspose.Words
 Imports Aspose.Words.Drawing
 Imports Aspose.Words.Tables
+Imports System
+Imports System.IO
+Imports NUnit.Framework
 
 Namespace ApiExamples
 	''' <summary>
 	''' Functions for operations with document and content
 	''' </summary>
-	Friend NotInheritable Class DocumentHelper
+	Friend Module DocumentHelper
 		''' <summary>
 		''' Create new document without run in the paragraph
 		''' </summary>
-		Private Sub New()
-		End Sub
-		Friend Shared Function CreateDocumentWithoutDummyText() As Document
+		Friend Function CreateDocumentWithoutDummyText() As Document
 			Dim doc As New Document()
 
 			'Remove the previous changes of the document
@@ -41,7 +39,7 @@ Namespace ApiExamples
 		''' <summary>
 		''' Create new document with text
 		''' </summary>
-		Friend Shared Function CreateDocumentFillWithDummyText() As Document
+		Friend Function CreateDocumentFillWithDummyText() As Document
 			Dim doc As New Document()
 
 			'Remove the previous changes of the document
@@ -71,10 +69,41 @@ Namespace ApiExamples
 			Return doc
 		End Function
 
+		Friend Sub FindTextInFile(ByVal path As String, ByVal expression As String)
+			Using sr = New StreamReader(path)
+				Do While Not sr.EndOfStream
+					Dim line = sr.ReadLine()
+
+					If String.IsNullOrEmpty(line) Then
+						Continue Do
+					End If
+
+					If line.Contains(expression) Then
+						Console.WriteLine(line)
+						Assert.Pass()
+					Else
+						Assert.Fail()
+					End If
+				Loop
+			End Using
+		End Sub
+
+		''' <summary>
+		''' Create new document template for reporting engine
+		''' </summary>
+		Friend Function CreateSimpleDocument(ByVal templateText As String) As Document
+			Dim doc As New Document()
+			Dim builder As New DocumentBuilder(doc)
+
+			builder.Write(templateText)
+
+			Return doc
+		End Function
+
 		''' <summary>
 		''' Create new document with textbox shape and some query
 		''' </summary>
-		Friend Shared Function CreateTemplateDocumentWithDrawObjects(ByVal templateText As String, ByVal shapeType As ShapeType) As Document
+		Friend Function CreateTemplateDocumentWithDrawObjects(ByVal templateText As String, ByVal shapeType As ShapeType) As Document
 			Dim doc As New Document()
 
 			' Create textbox shape.
@@ -97,7 +126,7 @@ Namespace ApiExamples
 		''' <summary>
 		''' Insert new table in the document
 		''' </summary>
-		Private Shared Sub InsertTable(ByVal builder As DocumentBuilder)
+		Private Sub InsertTable(ByVal builder As DocumentBuilder)
 			'Start creating a new table
 			Dim table As Table = builder.StartTable()
 
@@ -130,7 +159,7 @@ Namespace ApiExamples
 		''' <summary>
 		''' Insert TOC entries in the document
 		''' </summary>
-		Private Shared Sub InsertToc(ByVal builder As DocumentBuilder)
+		Private Sub InsertToc(ByVal builder As DocumentBuilder)
 			' Creating TOC entries
 			builder.ParagraphFormat.StyleIdentifier = StyleIdentifier.Heading1
 
@@ -154,18 +183,29 @@ Namespace ApiExamples
 		End Sub
 
 		''' <summary>
+		''' Compare word documents
+		''' </summary>
+		''' <param name="filePathDoc1">Frist document path</param>
+		''' <param name="filePathDoc2">Second document path</param>
+		''' <returns>Result of compare document</returns>
+		Friend Function CompareDocs(ByVal filePathDoc1 As String, ByVal filePathDoc2 As String) As Boolean
+			Dim doc1 As New Document(filePathDoc1)
+			Dim doc2 As New Document(filePathDoc2)
+
+			If doc1.GetText() = doc2.GetText() Then
+				Return True
+			End If
+
+			Return False
+		End Function
+
+		''' <summary>
 		''' Insert run into the current document
 		''' </summary>
-		''' <param name="doc">
-		''' Current document
-		''' </param>
-		''' <param name="text">
-		''' Custom text
-		''' </param>
-		''' <param name="paraIndex">
-		''' Paragraph index
-		''' </param>
-		Friend Shared Function InsertNewRun(ByVal doc As Document, ByVal text As String, ByVal paraIndex As Integer) As Run
+		''' <param name="doc">Current document</param>
+		''' <param name="text">Custom text</param>
+		''' <param name="paraIndex">Paragraph index</param>
+		Friend Function InsertNewRun(ByVal doc As Document, ByVal text As String, ByVal paraIndex As Integer) As Run
 			Dim para As Paragraph = GetParagraph(doc, paraIndex)
 
 			Dim run As New Run(doc) With {.Text = text}
@@ -178,13 +218,9 @@ Namespace ApiExamples
 		''' <summary>
 		''' Insert text into the current document
 		''' </summary>
-		''' <param name="builder">
-		''' Current document builder
-		''' </param>
-		''' <param name="textStrings">
-		''' Custom text
-		''' </param>
-		Friend Shared Sub InsertBuilderText(ByVal builder As DocumentBuilder, ByVal textStrings() As String)
+		''' <param name="builder">Current document builder</param>
+		''' <param name="textStrings">Custom text</param>
+		Friend Sub InsertBuilderText(ByVal builder As DocumentBuilder, ByVal textStrings() As String)
 			For Each textString As String In textStrings
 				builder.Writeln(textString)
 			Next textString
@@ -199,12 +235,12 @@ Namespace ApiExamples
 		''' <param name="paraIndex">
 		''' Paragraph number from collection
 		''' </param>
-		Friend Shared Function GetParagraphText(ByVal doc As Document, ByVal paraIndex As Integer) As String
-			Return doc.FirstSection.Body.Paragraphs(paraIndex).GetText()
+		Friend Function GetSectionText(ByVal doc As Document, ByVal secIndex As Integer) As String
+			Return doc.Sections(secIndex).GetText()
 		End Function
 
 		''' <summary>
-		''' Get paragraph of the current document
+		''' Get paragraph text of the current document
 		''' </summary>
 		''' <param name="doc">
 		''' Current document
@@ -212,8 +248,19 @@ Namespace ApiExamples
 		''' <param name="paraIndex">
 		''' Paragraph number from collection
 		''' </param>
-		Friend Shared Function GetParagraph(ByVal doc As Document, ByVal paraIndex As Integer) As Paragraph
+		''' <param name="doc">Current document</param>
+		''' <param name="paraIndex">Paragraph number from collection</param>
+		Friend Function GetParagraphText(ByVal doc As Document, ByVal paraIndex As Integer) As String
+			Return doc.FirstSection.Body.Paragraphs(paraIndex).GetText()
+		End Function
+
+		''' <summary>
+		''' Get paragraph of the current document
+		''' </summary>
+		''' <param name="doc">Current document</param>
+		''' <param name="paraIndex">Paragraph number from collection</param>
+		Friend Function GetParagraph(ByVal doc As Document, ByVal paraIndex As Integer) As Paragraph
 			Return doc.FirstSection.Body.Paragraphs(paraIndex)
 		End Function
-	End Class
+	End Module
 End Namespace

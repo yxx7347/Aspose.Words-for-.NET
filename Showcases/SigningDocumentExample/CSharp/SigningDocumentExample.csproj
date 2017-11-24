@@ -64,11 +64,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConvertHepler.cs" />
-    <Compile Include="SigningDocumentExample.cs" />
-    <Compile Include="ApiExampleBase.cs" />
+    <Compile Include="ExtensionsHelper.cs" />
     <Compile Include="SignDocument.cs" />
-    <Compile Include="SignDocumentList.cs" />
-    <Compile Include="SignPersonList.cs" />
+    <Compile Include="SignDocumentExample.cs" />
+    <Compile Include="Base.cs" />
+    <Compile Include="SignPerson.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

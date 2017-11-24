@@ -6,35 +6,26 @@ using Aspose.Words;
 
 namespace SigningDocumentExample
 {
-    public class ConvertHepler : ApiExampleBase
+    public class ConvertHepler : Base
     {
-        /// <summary>
-        /// Convert byte array to test image
-        /// </summary>
-        public static byte[] ConverTestImageToByteArray()
+        public static byte[] ConverImageToByteArray(string pathToImage)
         {
-            Image imageIn = Image.FromFile(MyDir + @"Images\LogoSmall.png");
+            Image imageIn = Image.FromFile(pathToImage);
 
-            MemoryStream ms = new MemoryStream();
-            imageIn.Save(ms, ImageFormat.Png);
+            MemoryStream stream = new MemoryStream();
+            imageIn.Save(stream, ImageFormat.Png);
 
-            return ms.ToArray();
+            return stream.ToArray();
         }
 
-        /// <summary>
-        /// Convert byte array to AW document
-        /// </summary>
-        public static Document ConvertByteArrayToDocument(Byte[] document)
+        public static Document ConvertByteArrayToDocument(byte[] documentArray)
         {
-            MemoryStream stream = new MemoryStream(document ?? throw new InvalidOperationException());
-            Document documentFromDb = new Document(stream);
+            MemoryStream stream = new MemoryStream(documentArray);
+            Document document = new Document(stream);
 
-            return documentFromDb;
+            return document;
         }
 
-        /// <summary>
-        /// Convert AW document to byte array
-        /// </summary>
         public static byte[] ConvertDocumentToByteArray(Document document)
         {
             MemoryStream documentArray = new MemoryStream();

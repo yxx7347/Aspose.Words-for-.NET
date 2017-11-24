@@ -21,7 +21,8 @@ namespace ApiExamples
         public void Iso29500Strict()
         {
             //ExStart
-            //ExFor:OoxmlCompliance.Iso29500_2008_Strict
+            //ExFor:OoxmlSaveOptions.Compliance
+            //ExFor:OoxmlCompliance
             //ExSummary:Shows conversion vml shapes to dml using Iso29500_2008_Strict option
             Document doc = new Document();
             DocumentBuilder builder = new DocumentBuilder(doc);

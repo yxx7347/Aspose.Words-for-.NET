@@ -370,7 +370,8 @@ namespace ApiExamples
         public void UpdateFieldIgnoringMergeFormat()
         {
             //ExStart
-            //ExFor:FieldIncludePicture.Update(Bool)
+            //ExFor:FieldIncludePicture
+            //ExFor:Field.Update(bool)
             //ExSummary:Shows a way to update a field ignoring the MERGEFORMAT switch
             LoadOptions loadOptions = new LoadOptions();
             loadOptions.PreserveIncludePictureField = true;

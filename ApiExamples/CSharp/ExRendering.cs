@@ -58,8 +58,8 @@ namespace ApiExamples
         public void SaveToPdfStreamOnePage()
         {
             //ExStart
-            //ExFor:PdfSaveOptions.PageIndex
-            //ExFor:PdfSaveOptions.PageCount
+            //ExFor:FixedPageSaveOptions.PageIndex
+            //ExFor:FixedPageSaveOptions.PageCount
             //ExFor:Document.Save(Stream, SaveOptions)
             //ExSummary:Converts just one page (third page in this example) of the document to PDF.
             Document doc = new Document(MyDir + "Rendering.doc");
@@ -462,7 +462,7 @@ namespace ApiExamples
             //ExFor:Document.RenderToScale
             //ExFor:Document.GetPageInfo
             //ExFor:PageInfo
-            //ExFor:PageInfo.GetSizeInPixels
+            //ExFor:PageInfo.GetSizeInPixels(System.Single, System.Single)
             //ExSummary:Renders a page of a Word document into a bitmap using a specified zoom factor.
             Document doc = new Document(MyDir + "Rendering.doc");
 
@@ -947,7 +947,7 @@ namespace ApiExamples
             //ExFor:IWarningCallback
             //ExFor:SaveOptions.WarningCallback
             //ExId:FontSubstitutionNotification
-            //ExSummary:Demonstrates how to recieve notifications of font substitutions by using IWarningCallback.
+            //ExSummary:Demonstrates how to recieve notifications of font substitutions by using IWarningCallback???.
             // Load the document to render.
             Document doc = new Document(MyDir + "Document.doc");
 
@@ -1155,7 +1155,7 @@ namespace ApiExamples
         {
             Document doc = new Document(MyDir + "Rendering.NumeralFormat.doc");
             //ExStart
-            //ExFor:PdfSaveOptions.NumeralFormat
+            //ExFor:FixedPageSaveOptions.NumeralFormat
             //ExSummary:Demonstrates how to set the numeral format used when saving to PDF.
             PdfSaveOptions options = new PdfSaveOptions();
             options.NumeralFormat = NumeralFormat.Context;

@@ -392,6 +392,7 @@ namespace ApiExamples
             //ExStart
             //ExFor:DocumentBuilder.InsertCheckBox(string, bool, bool, int)
             //ExFor:DocumentBuilder.InsertCheckBox(string, bool, int)
+            //ExSummary:Shows how insert check boxes
             Document doc = new Document();
             DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1524,7 +1525,7 @@ namespace ApiExamples
         public void DocumentBuilderInsertCheckBoxFormField()
         {
             //ExStart
-            //ExFor:DocumentBuilder.InsertCheckBox
+            //ExFor:DocumentBuilder.InsertCheckBox(string, bool, int)
             //ExId:DocumentBuilderInsertCheckBoxFormField
             //ExSummary:Shows how to insert a checkbox form field into a document.
             Document doc = new Document();
@@ -1538,7 +1539,7 @@ namespace ApiExamples
         public void DocumentBuilderInsertComboBoxFormField()
         {
             //ExStart
-            //ExFor:DocumentBuilder.InsertComboBox
+            //ExFor:DocumentBuilder.InsertComboBox(string, string[], int)
             //ExId:DocumentBuilderInsertComboBoxFormField
             //ExSummary:Shows how to insert a combobox form field into a document.
             Document doc = new Document();
@@ -1573,7 +1574,6 @@ namespace ApiExamples
             //ExStart
             //ExFor:SignatureLine
             //ExFor:SignatureLineOptions
-            //ExFor:DocumentBuilder.InsertSignatureLine(SignatureLineOptions)
             //ExFor:DocumentBuilder.InsertSignatureLine(SignatureLineOptions)
             //ExSummary:Shows how to insert signature line and get signature line properties
             Document doc = new Document();
@@ -2042,8 +2042,8 @@ namespace ApiExamples
         public void InsertCheckBoxEx()
         {
             //ExStart
-            //ExFor:DocumentBuilder.InsertCheckBox(String, Boolean, Int32)
-            //ExFor:DocumentBuilder.InsertCheckBox(String, Boolean, Boolean, Int32)
+            //ExFor:DocumentBuilder.InsertCheckBox(string, bool, int)
+            //ExFor:DocumentBuilder.InsertCheckBox(string, bool, bool, int)
             //ExSummary:Shows how to insert a check box into a document.
             Document doc = new Document();
             DocumentBuilder builder = new DocumentBuilder(doc);

@@ -9,13 +9,13 @@
     <RootNamespace>
     </RootNamespace>
     <AssemblyName>ApiExamples</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
     <OptionExplicit>On</OptionExplicit>
     <OptionCompare>Binary</OptionCompare>
     <OptionStrict>Off</OptionStrict>
     <OptionInfer>On</OptionInfer>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,6 +26,8 @@
     <DefineTrace>true</DefineTrace>
     <ErrorReport>prompt</ErrorReport>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Debug\ApiExamples.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,18 +36,32 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Aspose.BarCode, Version=7.7.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
-      <HintPath>packages\Aspose.BarCode.7.7.0\lib\net4.5\Aspose.BarCode.dll</HintPath>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Web" />
+    <Import Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Aspose.BarCode, Version=8.2.1.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <HintPath>packages\Aspose.BarCode.8.2.1\lib\net4.5\Aspose.BarCode.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Aspose.Pdf, Version=11.4.0.0, Culture=neutral, PublicKeyToken=6947866647e416ec, processorArchitecture=MSIL">
-      <HintPath>packages\Aspose.Pdf.11.4.0\lib\net40-client\Aspose.Pdf.dll</HintPath>
+    <Reference Include="Aspose.Pdf, Version=12.0.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <HintPath>packages\Aspose.Pdf.12.0.0\lib\net40-client\Aspose.Pdf.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Aspose.Words, Version=16.4.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
-      <HintPath>packages\Aspose.Words.16.4.0\lib\net40\Aspose.Words.dll</HintPath>
+    <Reference Include="Aspose.Words, Version=17.8.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <HintPath>packages\Aspose.Words.17.8\lib\net40\Aspose.Words.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
@@ -66,72 +82,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExBookmarks.vb" />
-    <Compile Include="ExBorder.vb" />
-    <Compile Include="ExBorderCollection.vb" />
-    <Compile Include="ExBuildVersion.vb" />
-    <Compile Include="ExComment.vb" />
-    <Compile Include="ExUtilityClasses.vb" />
-    <Compile Include="ExDigitalSignature.vb" />
-    <Compile Include="ExDigitalSignatureCollection.vb" />
-    <Compile Include="ExDigitalSignatureUtil.vb" />
-    <Compile Include="ExMossDoc2Pdf.vb" />
-    <Compile Include="ExMossRtf2Docx.vb" />
     <Compile Include="DocumentHelper.vb" />
-    <Compile Include="ExDocument.vb" />
-    <Compile Include="ExDocumentBuilder.vb" />
-    <Compile Include="ExDocumentBuilderImages.vb" />
-    <Compile Include="ExInsertDocument.vb" />
-    <Compile Include="ExVisitor.vb" />
-    <Compile Include="ExImage.vb" />
-    <Compile Include="ExShape.vb" />
-    <Compile Include="ExEditableRange.vb" />
-    <Compile Include="CustomBarcodeGenerator.vb" />
-    <Compile Include="ExField.vb" />
-    <Compile Include="ExFormFields.vb" />
-    <Compile Include="ExRenameMergeFields.vb" />
-    <Compile Include="ExFont.vb" />
-    <Compile Include="ExHeaderFooter.vb" />
-    <Compile Include="ExReplaceHyperlinks.vb" />
-    <Compile Include="ExHyphenation.vb" />
-    <Compile Include="ExInlineStory.vb" />
-    <Compile Include="ExLists.vb" />
-    <Compile Include="ExMailMerge.vb" />
-    <Compile Include="ExMailMergeCustom.vb" />
-    <Compile Include="ExMailMergeEvent.vb" />
-    <Compile Include="ExNestedMailMergeCustom.vb" />
-    <Compile Include="ExStructuredDocumentTag.vb" />
-    <Compile Include="ExNode.vb" />
-    <Compile Include="ExPageSetup.vb" />
-    <Compile Include="ExParagraph.vb" />
-    <Compile Include="ExProperties.vb" />
     <Compile Include="ApiExampleBase.vb" />
-    <Compile Include="ExRange.vb" />
-    <Compile Include="ExRendering.vb" />
-    <Compile Include="ExReportingEngine.vb" />
-    <Compile Include="ExImageSaveOptions.vb" />
-    <Compile Include="ExHtmlSaveOptions.vb" />
-    <Compile Include="ExHtmlFixedSaveOptions.vb" />
-    <Compile Include="ExPdfSaveOptions.vb" />
-    <Compile Include="ExSwfSaveOptions.vb" />
-    <Compile Include="ExSavingCallback.vb" />
-    <Compile Include="ExSection.vb" />
-    <Compile Include="ExStyles.vb" />
-    <Compile Include="ExCellFormat.vb" />
-    <Compile Include="ExTable.vb" />
-    <Compile Include="ExTableColumn.vb" />
-    <Compile Include="ExTabStopCollection.vb" />
-    <Compile Include="ExVariableCollection.vb" />
-    <Compile Include="ExWarningInfoCollection.vb" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <Compile Include="TestData\NumericDataSourceWithMethod.vb" />
+    <Compile Include="TestData\DocumentDataSource.vb" />
+    <Compile Include="TestData\DataTables.vb">
+      <DependentUpon>DataTables.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="TestData\DataTables.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataTables.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="TestData\NumericDataSource.vb" />
+    <Compile Include="TestData\ImageDataSource.vb" />
+    <Compile Include="TestData\SimpleDataSource.vb" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="My Project\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="TestData\DataTables.xsc">
+      <DependentUpon>DataTables.xsd</DependentUpon>
+    </None>
+    <None Include="TestData\DataTables.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataTables.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="TestData\DataTables.xss">
+      <DependentUpon>DataTables.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
