@@ -64,10 +64,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConvertHepler.cs" />
-    <Compile Include="ExtensionsHelper.cs" />
+    <Compile Include="IRepository.cs" />
+    <Compile Include="Repository.cs" />
     <Compile Include="SignDocument.cs" />
     <Compile Include="SignDocumentExample.cs" />
-    <Compile Include="Base.cs" />
     <Compile Include="SignPerson.cs" />
   </ItemGroup>
   <ItemGroup>
