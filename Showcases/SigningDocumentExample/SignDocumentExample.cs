@@ -49,7 +49,7 @@ namespace SigningDocumentExample
         }
 
         /// <summary>
-        /// Add to the document signature line and sign it with personal certificate
+        /// Add signature line to the document and sign it with personal certificate
         /// </summary>
         /// <param name="signer">Name of the person who sing document</param>
         /// <param name="builder">Class that provides methods for create SignatureLine</param>
