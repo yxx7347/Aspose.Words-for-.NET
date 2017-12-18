@@ -1,11 +1,15 @@
-﻿using System;
+﻿// INSP DD: Aspose Copyright etc.
+using System;
 using System.IO;
 using System.Reflection;
 using Aspose.Words;
 using NUnit.Framework;
 
+
 namespace AddingComments
 {
+    // INSP DD: Make a very brief summary of what is being illustrated by this example
+    // and mention where reusable code may be located: e.g. your Helper
     [TestFixture]
     public class Program
     {
@@ -16,8 +20,8 @@ namespace AddingComments
         [Test]
         public static void Main()
         {
-            Comment();
-            ReplyToComment();
+            Comment(); // INSP DD: Make method name more detailed, to illustrate the purpose, e.g. RunCommentExamples()
+            ReplyToComment(); // Same as above
         }
 
         public static void Comment()
@@ -76,7 +80,7 @@ namespace AddingComments
 
             Console.WriteLine("All comments and replies are added!");
 
-            // Extract the information about the all replies of all comments in the document
+            // Extract the information about  all the replies of all the comments in the document
             foreach (Comment comment in ReplyToCommentHelper.ExtractReplies(doc))
             {
                 Console.Write(comment.Ancestor.GetText());
@@ -112,7 +116,7 @@ namespace AddingComments
 
             // Check that comment is reply to
             foreach (Comment comment in CommentsHelper.ExtractComments(doc, "Author 5"))
-                ReplyToCommentHelper.IsReply(comment);
+                ReplyToCommentHelper.IsReply(comment); // INSP DD: Maybe use Console.WriteLine to output replies
 
             // Remove all replies to comments from the document
             ReplyToCommentHelper.RemoveReplies(doc);
