@@ -1,24 +1,20 @@
-﻿// INSP DD: Aspose Copyright etc.
-using System;
+﻿// Copyright (c) 2001-2017 Aspose Pty Ltd. All Rights Reserved.
+//
+// This file is part of Aspose.Words. The source code in this file
+// is only intended as a supplement to the documentation, and is provided
+// "as is", without warranty of any kind, either expressed or implied.
+//////////////////////////////////////////////////////////////////////////
 using System.Collections.Generic;
 using Aspose.Words;
 
 namespace AddingComments
 {
-
     public static class ReplyToCommentHelper
     {
-        // INSP DD: this may be too trivial to create a method, remove
-        public static void AddReplyToComment(Comment comment, string authorName, string initials, DateTime dateTime, string commentText)
-        {
-            comment.AddReply(authorName, initials, dateTime, commentText);
-        }
-
         public static List<Comment> ExtractReplies(Document doc)
         {
             List<Comment> collectedComments = new List<Comment>();
 
-            // Collect all comments in the document
             NodeCollection comments = doc.GetChildNodes(NodeType.Comment, true);
 
             foreach (Comment comment in comments)
@@ -44,8 +40,7 @@ namespace AddingComments
             return collectedComments;
         }
 
-        // INSP DD: Usually when index is passed the methods name contains At e.g. RemoveReplyAt
-        public static void RemoveReply(Comment comment, int replyIndex)
+        public static void RemoveReplyAt(Comment comment, int replyIndex)
         {
             comment.RemoveReply(comment.Replies[replyIndex]);
         }
@@ -63,12 +58,6 @@ namespace AddingComments
             }
         }
 
-        // INSP DD: this may be too trivial to create a method, remove
-        public static void RemoveReplies(Comment comment)
-        {
-            comment.RemoveAllReplies();
-        }
-
         public static bool IsReply(Comment comment)
         {
             if (comment.Ancestor != null)
@@ -79,19 +68,12 @@ namespace AddingComments
             return false;
         }
 
-        // INSP DD: unused, either use in some usecase or remove 
         public static void MarkRepliesAsDone(Comment comment)
         {
             foreach (Comment reply in comment.Replies)
             {
                 reply.Done = true;
             }
-        }
-
-        // INSP DD: this may be too trivial to create a method, remove
-        public static void MarkReplyAsDone(Comment reply)
-        {
-            reply.Done = true;
         }
     }
 }

@@ -1,30 +1,30 @@
-﻿// INSP DD: Aspose Copyright etc.
+﻿// Copyright (c) 2001-2017 Aspose Pty Ltd. All Rights Reserved.
+//
+// This file is part of Aspose.Words. The source code in this file
+// is only intended as a supplement to the documentation, and is provided
+// "as is", without warranty of any kind, either expressed or implied.
+//////////////////////////////////////////////////////////////////////////
 using System;
-using System.IO;
-using System.Reflection;
 using Aspose.Words;
 using NUnit.Framework;
 
-
 namespace AddingComments
 {
-    // INSP DD: Make a very brief summary of what is being illustrated by this example
-    // and mention where reusable code may be located: e.g. your Helper
+    /// <summary>
+    /// This project demonstrates how to create and work with comments <see cref="RunCommentExamples"/> and 
+    /// replies to comments <see cref="RunReplyToCommentExamples"/> on the AW document.
+    /// </summary>
     [TestFixture]
     public class Program
     {
-        // Sample infrastructure.
-        static readonly string ExeDir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath) + Path.DirectorySeparatorChar;
-        static readonly string DataDir = new Uri(new Uri(ExeDir), @"../../Data/").LocalPath;
-
         [Test]
         public static void Main()
         {
-            Comment(); // INSP DD: Make method name more detailed, to illustrate the purpose, e.g. RunCommentExamples()
-            ReplyToComment(); // Same as above
+            RunCommentExamples(); 
+            RunReplyToCommentExamples();
         }
 
-        public static void Comment()
+        public static void RunCommentExamples()
         {
             // Create new test document for adding comments and replies.
             Document doc = new Document();
@@ -55,13 +55,10 @@ namespace AddingComments
 
             // Remove all comments.
             CommentsHelper.RemoveComments(doc);
-            Console.WriteLine("All comments are removed!");
-
-            // Save the document.
-            doc.Save(DataDir + "Test File Comment Out.docx");
+            Console.WriteLine("All comments are  removed!");
         }
 
-        public static void ReplyToComment()
+        public static void RunReplyToCommentExamples()
         {
             // Create new test document for adding comments and replies.
             Document doc = new Document();
@@ -73,58 +70,55 @@ namespace AddingComments
 
                 for (int y = 0; y <= 10; y++)
                 {
-                    ReplyToCommentHelper.AddReplyToComment(comment, "Reply author " + y, "Reply initials " + y,
-                        DateTime.Now, "Reply to comment " + y);
+                    comment.AddReply("Reply author " + y, "Reply initials " + y, DateTime.Now, "Reply to comment " + y);
                 }
             }
 
             Console.WriteLine("All comments and replies are added!");
 
             // Extract the information about  all the replies of all the comments in the document
-            foreach (Comment comment in ReplyToCommentHelper.ExtractReplies(doc))
+            foreach (Comment reply in ReplyToCommentHelper.ExtractReplies(doc))
             {
-                Console.Write(comment.Ancestor.GetText());
-                Console.Write(comment.GetText());
+                Console.Write(reply.Ancestor.GetText());
+                Console.Write(reply.GetText());
             }
 
             // Remove reply to comment by index.
             foreach (Comment comment in CommentsHelper.ExtractComments(doc, "Author 1"))
-                ReplyToCommentHelper.RemoveReply(comment, 2);
+                ReplyToCommentHelper.RemoveReplyAt(comment, 2);
 
             Console.WriteLine("Reply was removed!");
 
             // Extract the information about the replies from comment of the "Author 2" author and mark as "Done"
             foreach (Comment comment in CommentsHelper.ExtractComments(doc, "Author 2"))
                 foreach (Comment reply in ReplyToCommentHelper.ExtractReplies(comment))
-                ReplyToCommentHelper.MarkReplyAsDone(reply);
+                reply.Done = true;
 
             // Mark replies of the "Author 1" comment author as "Done"
             foreach (Comment comment in CommentsHelper.ExtractComments(doc, "Author 3"))
-                CommentsHelper.MarkCommentAsDone(comment);
+                ReplyToCommentHelper.MarkRepliesAsDone(comment);
 
             Console.WriteLine("All replies marks as 'Done'");
 
             // Remove reply of the "Author 4" comment author by index
             foreach (Comment comment in CommentsHelper.ExtractComments(doc, "Author 4"))
-                ReplyToCommentHelper.RemoveReply(comment, 1);
+                ReplyToCommentHelper.RemoveReplyAt(comment, 1);
 
             // Remove all replies of the "Author 4" comment author
             foreach (Comment comment in CommentsHelper.ExtractComments(doc, "Author 4"))
-                ReplyToCommentHelper.RemoveReplies(comment);
+                comment.RemoveAllReplies();
 
             Console.WriteLine("Specific replies are removed!");
 
             // Check that comment is reply to
             foreach (Comment comment in CommentsHelper.ExtractComments(doc, "Author 5"))
-                ReplyToCommentHelper.IsReply(comment); // INSP DD: Maybe use Console.WriteLine to output replies
+                if (ReplyToCommentHelper.IsReply(comment))
+                    Console.WriteLine(comment.GetText());
 
             // Remove all replies to comments from the document
             ReplyToCommentHelper.RemoveReplies(doc);
 
             Console.WriteLine("All replies are removed!");
-
-            // Save the document.
-            doc.Save(DataDir + "Test File ReplyToComment Out.docx");
         }
     }
 }

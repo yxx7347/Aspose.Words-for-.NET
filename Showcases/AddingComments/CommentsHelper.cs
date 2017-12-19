@@ -1,10 +1,16 @@
-﻿using System;
+﻿// Copyright (c) 2001-2017 Aspose Pty Ltd. All Rights Reserved.
+//
+// This file is part of Aspose.Words. The source code in this file
+// is only intended as a supplement to the documentation, and is provided
+// "as is", without warranty of any kind, either expressed or implied.
+//////////////////////////////////////////////////////////////////////////
+using System;
 using System.Collections.Generic;
 using Aspose.Words;
 
 namespace AddingComments
 {
-    public class CommentsHelper
+    public static class CommentsHelper
     {
         public static Comment AddComment(Document doc, string authorName, string initials, DateTime dateTime,
             string commentText)
@@ -23,10 +29,8 @@ namespace AddingComments
         {
             List<Comment> collectedComments = new List<Comment>();
 
-            // Collect all comments in the document
             NodeCollection comments = doc.GetChildNodes(NodeType.Comment, true);
 
-            // Look through all comments and gather information about those written by the authorName author.
             foreach (Comment comment in comments)
             {
                 collectedComments.Add(comment);
@@ -39,10 +43,8 @@ namespace AddingComments
         {
             List<Comment> collectedComments = new List<Comment>();
 
-            // Collect all comments in the document
             NodeCollection comments = doc.GetChildNodes(NodeType.Comment, true);
 
-            // Look through all comments and gather information about those written by the authorName author.
             foreach (Comment comment in comments)
             {
                 if (comment.Author == authorName)
@@ -54,19 +56,15 @@ namespace AddingComments
 
         public static void RemoveComments(Document doc)
         {
-            // Collect all comments in the document
             NodeCollection comments = doc.GetChildNodes(NodeType.Comment, true);
 
-            // Remove all comments.
             comments.Clear();
         }
 
         public static void RemoveComments(Document doc, string authorName)
         {
-            // Collect all comments in the document
             NodeCollection comments = doc.GetChildNodes(NodeType.Comment, true);
 
-            // Look through all comments and remove those written by the authorName author.
             for (int i = comments.Count - 1; i >= 0; i--)
             {
                 Comment comment = (Comment)comments[i];
@@ -77,7 +75,6 @@ namespace AddingComments
 
         public static void MarkCommentsAsDone(Document doc)
         {
-            // Collect all comments in the document
             NodeCollection comments = doc.GetChildNodes(NodeType.Comment, true);
 
             foreach (Comment comment in comments)
