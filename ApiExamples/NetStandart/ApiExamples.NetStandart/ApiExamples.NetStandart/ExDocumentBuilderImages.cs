@@ -12,7 +12,7 @@ using Aspose.Words;
 using Aspose.Words.Drawing;
 using NUnit.Framework;
 
-namespace ApiExamples
+namespace ApiExamples.NetStandart
 {
     [TestFixture]
     public class ExDocumentBuilderImages : ApiExampleBase
@@ -90,7 +90,7 @@ namespace ApiExamples
 
             // Prepare a byte array of an image.
             Image image = Image.FromFile(ImageDir + "Aspose.Words.gif");
-
+            
             using (MemoryStream imageBytes = new MemoryStream())
             {
                 image.Save(imageBytes, ImageFormat.Png);
@@ -110,7 +110,7 @@ namespace ApiExamples
             Document doc = new Document();
             DocumentBuilder builder = new DocumentBuilder(doc);
 
-            using (Image rasterImage = Image.FromFile(ImageDir + "Aspose.Words.gif"))
+            using (SkiaSharp.SKBitmap rasterImage = SkiaSharp.SKBitmap.Decode(ImageDir + "Aspose.Words.gif"))
             {
                 builder.InsertImage(rasterImage, ConvertUtil.PixelToPoint(450), ConvertUtil.PixelToPoint(144));
                 builder.Writeln();
@@ -129,7 +129,7 @@ namespace ApiExamples
             Document doc = new Document();
             DocumentBuilder builder = new DocumentBuilder(doc);
 
-            using (Image rasterImage = Image.FromFile(ImageDir + "Aspose.Words.gif"))
+            using (SkiaSharp.SKBitmap rasterImage = SkiaSharp.SKBitmap.Decode(ImageDir + "Aspose.Words.gif"))
             {
                 builder.InsertImage(rasterImage, RelativeHorizontalPosition.Margin, 100, RelativeVerticalPosition.Margin, 100, 200, 100, WrapType.Square);
             }
