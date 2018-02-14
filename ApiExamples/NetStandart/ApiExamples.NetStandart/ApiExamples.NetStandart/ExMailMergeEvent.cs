@@ -271,6 +271,7 @@ namespace ApiExamples.NetStandart
         }
 
         [Test]
+        [Ignore("OleDb not supported")]
         public void MailMergeImageFromBlob()
         {
             //ExStart
@@ -283,27 +284,27 @@ namespace ApiExamples.NetStandart
             //ExFor:ImageFieldMergingArgs.ImageStream
             //ExId:MailMergeImageFromBlob
             //ExSummary:Shows how to insert images stored in a database BLOB field into a report.
-            Document doc = new Document(MyDir + "MailMerge.MergeImage.doc");
+            //Document doc = new Document(MyDir + "MailMerge.MergeImage.doc");
 
             // Set up the event handler for image fields.
-            doc.MailMerge.FieldMergingCallback = new HandleMergeImageFieldFromBlob();
+            //doc.MailMerge.FieldMergingCallback = new HandleMergeImageFieldFromBlob();
 
             // Open a database connection.
-            string connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + DatabaseDir + "Northwind.mdb";
-            OleDbConnection conn = new OleDbConnection(connString);
-            conn.Open();
+            //string connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + DatabaseDir + "Northwind.mdb";
+            //OleDbConnection conn = new OleDbConnection(connString);
+            //conn.Open();
 
             // Open the data reader. It needs to be in the normal mode that reads all record at once.
-            OleDbCommand cmd = new OleDbCommand("SELECT * FROM Employees", conn);
-            IDataReader dataReader = cmd.ExecuteReader();
+            //OleDbCommand cmd = new OleDbCommand("SELECT * FROM Employees", conn);
+            //IDataReader dataReader = cmd.ExecuteReader();
 
             // Perform mail merge.
-            doc.MailMerge.ExecuteWithRegions(dataReader, "Employees");
+            //doc.MailMerge.ExecuteWithRegions(dataReader, "Employees");
 
             // Close the database.
-            conn.Close();
+            //conn.Close();
 
-            doc.Save(MyDir + @"\Artifacts\MailMerge.MergeImage.doc");
+            //doc.Save(MyDir + @"\Artifacts\MailMerge.MergeImage.doc");
         }
 
         private class HandleMergeImageFieldFromBlob : IFieldMergingCallback
