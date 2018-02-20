@@ -20,7 +20,7 @@ namespace ApiExamples
     {
         private readonly String dirPath = MyDir + @"\Artifacts\";
 
-        [SetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             SetUnlimitedLicense();
@@ -30,7 +30,7 @@ namespace ApiExamples
                 Directory.CreateDirectory(dirPath);
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public void TearDown()
         {
             //Delete all dirs and files from directory

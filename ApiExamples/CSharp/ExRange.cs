@@ -87,6 +87,54 @@ namespace ApiExamples
             doc.Save(MyDir + @"\Artifacts\ReplaceWithRegex.docx");
         }
 
+        //Why it doesn't work
+        [Test]
+        public void ReplacementSecondMetaVariant()
+        {
+            var doc = new Document();
+
+            var text = "some text";
+            var replaceWithText = "&ldquo;some text&rdquo;";
+
+            var builder = new DocumentBuilder(doc);
+            builder.Write(text);
+
+            FindReplaceOptions options = new FindReplaceOptions();
+            options.PreserveMetaCharacters = true;
+
+            doc.Range.Replace(text, replaceWithText, options);
+
+            doc.Save(MyDir + "123.html");
+        }
+
+        [Test]
+        public void ReplaceWithoutMeta()
+        {
+            Document doc = new Document(MyDir + "sadmad.docx");
+
+            FindReplaceOptions options = new FindReplaceOptions();
+            options.FindWholeWordsOnly = true;
+            options.PreserveMetaCharacters = false;
+
+            doc.Range.Replace("sad", "&ldquo;some text&rdquo;", options);
+
+            doc.Save(MyDir + "123.docx");
+        }
+
+        [Test]
+        public void ReplaceWithMetacharacters()
+        {
+            Document doc = new Document(MyDir + "sadmad.docx");
+
+            FindReplaceOptions options = new FindReplaceOptions();
+            options.FindWholeWordsOnly = true;
+            options.PreserveMetaCharacters = true;
+
+            doc.Range.Replace("sad", "&ldquo;some text&rdquo;", options);
+
+            doc.Save(MyDir + "123.docx");
+        }
+
         [Test]
         public void ReplaceWithInsertHtml()
         {

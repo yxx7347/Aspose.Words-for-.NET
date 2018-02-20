@@ -64,6 +64,7 @@ namespace ApiExamples
 
             StructuredDocumentTag sdt = (StructuredDocumentTag)sdts[0];
             Assert.AreEqual(true, sdt.Checked);
+            Assert.IsNull(sdt.XmlMapping.StoreItemId); //Assert that this sdt has no StoreItemId
         }
 
         [Test]
@@ -86,6 +87,38 @@ namespace ApiExamples
             doc.Save(MyDir + @"\Artifacts\SDT.CustomXml.docx");
             //ExEnd
             Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\SDT.CustomXml.docx", MyDir + @"\Golds\SDT.CustomXml Gold.docx"));
+        }
+
+        [Test]
+        public void CustomXmlPartStoreItemIdReadOnly()
+        {
+            //ExStart
+            //ExFor:XmlMapping.StoreItemId
+            //ExSummary:Shows how to get id of your xml part.
+            Document doc = new Document(MyDir + @"\Artifacts\SDT.CustomXml.docx");
+            
+            StructuredDocumentTag sdt = (StructuredDocumentTag)doc.GetChild(NodeType.StructuredDocumentTag, 0, true);
+            Console.WriteLine("The Id of your custom xml part is: " + sdt.XmlMapping.StoreItemId);
+            //ExEnd
+        }
+
+        [Test]
+        public void CustomXmlPartStoreItemIdReadOnlyNull()
+        {
+            Document doc = new Document();
+            DocumentBuilder builder = new DocumentBuilder(doc);
+
+            StructuredDocumentTag sdtCheckBox = new StructuredDocumentTag(doc, SdtType.Checkbox, MarkupLevel.Inline);
+            sdtCheckBox.Checked = true;
+
+            // Insert content control into the document
+            builder.InsertNode(sdtCheckBox);
+            //ExEnd
+            MemoryStream dstStream = new MemoryStream();
+            doc.Save(dstStream, SaveFormat.Docx);
+
+            StructuredDocumentTag sdt = (StructuredDocumentTag)doc.GetChild(NodeType.StructuredDocumentTag, 0, true);
+            Console.WriteLine("The Id of your custom xml part is: " + sdt.XmlMapping.StoreItemId);
         }
 
         [Test]
