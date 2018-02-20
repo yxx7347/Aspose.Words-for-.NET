@@ -345,7 +345,6 @@ namespace ApiExamples
             builder.Writeln("<<[new DateTime(2016, 1, 20)]:”dd”>>");
             builder.Writeln("<<[new DateTime(2016, 1, 20)]:”MM”>>");
             builder.Writeln("<<[new DateTime(2016, 1, 20)]:”yyyy”>>");
-
             builder.Writeln("<<[new DateTime(2016, 1, 20).Month]>>");
 
             ReportingEngine engine = new ReportingEngine();
@@ -357,6 +356,65 @@ namespace ApiExamples
             Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\ReportingEngine.KnownTypes.docx", MyDir + @"\Golds\ReportingEngine.KnownTypes Gold.docx"));
         }
 
+        [Test]
+        public void WorkWithSingleColumnTableRow()
+        {
+            Document doc = new Document(MyDir + "SingleColumnTableRow.docx");
+
+            DataSet ds = DataSet.AddTestData();
+
+            BuildReport(doc, ds, "ds");
+            doc.Save(MyDir + @"\Artifacts\ReportingEngine.SingleColumnTableRow.docx");
+        }
+
+        [Test]
+        public void WorkWithSingleColumnTableRowGreedy()
+        {
+            Document doc = new Document(MyDir + "SingleColumnTableRowGreedy.docx");
+
+            DataSet ds = DataSet.AddTestData();
+
+            BuildReport(doc, ds, "ds");
+            doc.Save(MyDir + @"\Artifacts\ReportingEngine.SingleColumnTableRowGreedy.docx");
+        }
+
+        [Test]
+        public void TableRowConditionalBlocks()
+        {
+            Document doc = new Document(MyDir + "TableRowConditionalBlocks.docx");
+
+            List<Clients> clients = new List<Clients>();
+            clients.Add(new Clients { Name = "1", Country = "France", LocalAddress = "Test 1" });
+            clients.Add(new Clients { Name = "2", Country = "England", LocalAddress = "Test 2" });
+            clients.Add(new Clients { Name = "3", Country = "New Zeeland", LocalAddress = "Test 3" });
+
+            BuildReport(doc, clients, "clients");
+
+            doc.Save(MyDir + @"\Artifacts\ReportingEngine.TableRowConditionalBlocks.docx");
+        }
+
+        [Test]
+        public void IfGreedy()
+        {
+            Document doc = new Document(MyDir + "IfGreedy.docx");
+
+            var obj = new AsposeData
+            {
+                List = new List<string>
+                {
+                    "abc"
+                }
+            };
+
+            BuildReport(doc, obj);
+
+            doc.Save(MyDir + @"\Artifacts\IfGreedy.docx");
+        }
+        
+        public class AsposeData
+        {
+            public List<string> List { get; set; }
+        }
 
         [Test]
         [Ignore("WORDSNET-16258")]
@@ -523,13 +581,13 @@ namespace ApiExamples
             engine.BuildReport(document, dataSource, dataSourceName);
         }
 
-        private static void BuildReport(Document document, object[] dataSource, String[] dataSourceName)
+        private static void BuildReport(Document document, object[] dataSource, string[] dataSourceName)
         {
             ReportingEngine engine = new ReportingEngine();
             engine.BuildReport(document, dataSource, dataSourceName);
         }
 
-        private static void BuildReport(Document document, object dataSource, String dataSourceName)
+        private static void BuildReport(Document document, object dataSource, string dataSourceName)
         {
             ReportingEngine engine = new ReportingEngine();
             engine.BuildReport(document, dataSource, dataSourceName);
