@@ -322,5 +322,44 @@ namespace ApiExamples
             Assert.IsNotEmpty(Directory.GetFiles(MyDir + @"\Artifacts\Fonts", "HtmlSaveOptions.ResourceFolder Out.calibri.ttf", SearchOption.AllDirectories));
             Assert.IsNotEmpty(Directory.GetFiles(MyDir + @"\Artifacts\Resources", "HtmlSaveOptions.ResourceFolder Out.css", SearchOption.AllDirectories));
         }
+
+        [Test]
+        public void SvgMetafileFormat()
+        {
+            DocumentBuilder builder = new DocumentBuilder();
+            builder.Write("Here is an SVG image: ");
+            builder.InsertHtml(
+                @"<svg height='210' width='500'>
+                    <polygon points='100,10 40,198 190,78 10,78 160,198' 
+                        style='fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;' />
+                  </svg> ");
+            builder.Document.Save("out.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.Svg });
+        }
+
+        [Test]
+        public void PngMetafileFormat()
+        {
+            DocumentBuilder builder = new DocumentBuilder();
+            builder.Write("Here is an SVG image: ");
+            builder.InsertHtml(
+                @"<svg height='210' width='500'>
+                    <polygon points='100,10 40,198 190,78 10,78 160,198' 
+                        style='fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;' />
+                  </svg> ");
+            builder.Document.Save("out.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.Png });
+        }
+
+        [Test]
+        public void EmfOrWmfMetafileFormat()
+        {
+            DocumentBuilder builder = new DocumentBuilder();
+            builder.Write("Here is an SVG image: ");
+            builder.InsertHtml(
+                @"<svg height='210' width='500'>
+                    <polygon points='100,10 40,198 190,78 10,78 160,198' 
+                        style='fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;' />
+                  </svg> ");
+            builder.Document.Save("out.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.EmfOrWmf });
+        }
     }
 }

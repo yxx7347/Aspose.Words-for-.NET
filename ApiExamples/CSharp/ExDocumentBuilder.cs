@@ -1944,21 +1944,22 @@ namespace ApiExamples
         }
 
         [Test]
-        public void InsertDocument()
+        public void InsertDocument() //Bug with content? Rework gold file.
         {
             //ExStart
             //ExFor:DocumentBuilder.InsertDocument(Document, ImportFormatMode)
-            //ExSummary:Shows how to insert a document content into another document.
-            Document doc = new Document(MyDir + "Document.docx");
-            DocumentBuilder builder = new DocumentBuilder(doc);
+            //ExSummary:Shows how to insert a document content into another document keep formating of base document.
+            Document baseDoc = new Document(MyDir + "Document.docx");
+            DocumentBuilder builder = new DocumentBuilder(baseDoc);
 
-            Document docToInsert = new Document(MyDir + "DocumentBuilder.InsertedDoc.docx");
+            Document docToInsert = new Document(MyDir + "DocumentBuilder.KeepSourceFormatting.docx");
 
+            builder.MoveToDocumentEnd();
             builder.InsertDocument(docToInsert, ImportFormatMode.KeepSourceFormatting);
             //ExEnd
-            builder.Document.Save(MyDir + @"\Artifacts\DocumentBuilder.InsertDocument.docx");
+            builder.Document.Save(MyDir + @"\Artifacts\DocumentBuilder.InsertDocument.KeepSourceFormatting.docx");
 
-            Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\DocumentBuilder.InsertDocument.docx", MyDir + @"\Golds\DocumentBuilder.InsertDocument Gold.docx"));
+            Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\DocumentBuilder.InsertDocument.KeepSourceFormatting.docx", MyDir + @"\Golds\DocumentBuilder.InsertDocument Gold.docx"));
         }
 
         [Test]
@@ -2153,6 +2154,49 @@ namespace ApiExamples
 
             builder.InsertOnlineVideo(vimeoVideoUrl, vimeoEmbedCode, imageBytes, width, height);
             //ExEnd
+        }
+
+        [Test]
+        public void InsertStyleSeparator()
+        {
+            DocumentBuilder builder = new DocumentBuilder(new Document());
+
+            Style paraStyle = builder.Document.Styles.Add(StyleType.Paragraph, "MyParaStyle");
+            paraStyle.Font.Bold = false;
+            paraStyle.Font.Size = 8;
+            paraStyle.Font.Name = "Arial";
+
+            // Append text with "Heading 1" style.
+            builder.ParagraphFormat.StyleIdentifier = StyleIdentifier.Heading1;
+            builder.Write("Heading 1");
+            builder.InsertStyleSeparator();
+
+            // Append text with another style.
+            builder.ParagraphFormat.StyleName = paraStyle.Name;
+            builder.Write("This is text with some other formatting ");
+
+            builder.Document.Save(MyDir + @"\Artifacts\DocumentBuilder.InsertStyleSeparator.docx");
+        }
+
+        [Test]
+        public void WithoutStyleSeparator()
+        {
+            DocumentBuilder builder = new DocumentBuilder(new Document());
+
+            Style paraStyle = builder.Document.Styles.Add(StyleType.Paragraph, "MyParaStyle");
+            paraStyle.Font.Bold = false;
+            paraStyle.Font.Size = 8;
+            paraStyle.Font.Name = "Arial";
+
+            // Append text with "Heading 1" style.
+            builder.ParagraphFormat.StyleIdentifier = StyleIdentifier.Heading1;
+            builder.Write("Heading 1");
+            
+            // Append text with another style.
+            builder.ParagraphFormat.StyleName = paraStyle.Name;
+            builder.Write("This is text with some other formatting ");
+
+            builder.Document.Save(MyDir + @"\Artifacts\DocumentBuilder.InsertStyleSeparator.docx");
         }
     }
 }
