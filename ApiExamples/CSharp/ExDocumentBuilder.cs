@@ -1952,9 +1952,11 @@ namespace ApiExamples
             Document baseDoc = new Document(MyDir + "Document.docx");
             DocumentBuilder builder = new DocumentBuilder(baseDoc);
 
+            builder.MoveToDocumentEnd();
+            builder.InsertBreak(BreakType.PageBreak);
+
             Document docToInsert = new Document(MyDir + "DocumentBuilder.KeepSourceFormatting.docx");
 
-            builder.MoveToDocumentEnd();
             builder.InsertDocument(docToInsert, ImportFormatMode.KeepSourceFormatting);
             //ExEnd
             builder.Document.Save(MyDir + @"\Artifacts\DocumentBuilder.InsertDocument.KeepSourceFormatting.docx");
@@ -2156,6 +2158,7 @@ namespace ApiExamples
             //ExEnd
         }
 
+        //Need to add gold files
         [Test]
         public void InsertStyleSeparator()
         {
