@@ -326,6 +326,9 @@ namespace ApiExamples
         [Test]
         public void SvgMetafileFormat()
         {
+            //ExStart
+            //ExFor:HtmlSaveOptions.MetafileFormat
+            //ExSummary:Shows how to set format for metafiles which are saved at exporting.
             DocumentBuilder builder = new DocumentBuilder();
 
             builder.Write("Here is an SVG image: ");
@@ -335,26 +338,35 @@ namespace ApiExamples
                         style='fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;' />
                   </svg> ");
 
-            builder.Document.Save(MyDir + @"\Artifacts\HtmlSaveOptions.MetafileFormat Out.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.Svg });
+            HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+            saveOptions.MetafileFormat = HtmlMetafileFormat.Svg;
+
+            builder.Document.Save(MyDir + @"\Artifacts\HtmlSaveOptions.MetafileFormat Out.html", saveOptions);
         }
 
         [Test]
         public void PngMetafileFormat()
         {
             DocumentBuilder builder = new DocumentBuilder();
+
             builder.Write("Here is an Png image: ");
             builder.InsertHtml(
                 @"<svg height='210' width='500'>
                     <polygon points='100,10 40,198 190,78 10,78 160,198' 
                         style='fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;' />
                   </svg> ");
-            builder.Document.Save(MyDir + @"\Artifacts\HtmlSaveOptions.MetafileFormat Out.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.Png });
+
+            HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+            saveOptions.MetafileFormat = HtmlMetafileFormat.Png;
+
+            builder.Document.Save(MyDir + @"\Artifacts\HtmlSaveOptions.MetafileFormat Out.html", saveOptions);
         }
 
         [Test]
         public void EmfOrWmfMetafileFormat()
         {
             DocumentBuilder builder = new DocumentBuilder();
+
             builder.Write("Here is an image as is: ");
             builder.InsertHtml(
                 @"<img src=""data:image/png;base64,
@@ -364,7 +376,11 @@ namespace ApiExamples
                     REFUGNO9zL0NglAAxPEfdLTs4BZM4DIO4C7OwQg2JoQ9LE1exdlYvBBeZ7jq
                     ch9//q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0
                     vr4MkhoXe0rZigAAAABJRU5ErkJggg=="" alt=""Red dot"" />");
-            builder.Document.Save(MyDir + @"\Artifacts\HtmlSaveOptions.MetafileFormat Out.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.EmfOrWmf });
+
+            HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+            saveOptions.MetafileFormat = HtmlMetafileFormat.EmfOrWmf;
+
+            builder.Document.Save(MyDir + @"\Artifacts\HtmlSaveOptions.MetafileFormat Out.html", saveOptions);
         }
     }
 }

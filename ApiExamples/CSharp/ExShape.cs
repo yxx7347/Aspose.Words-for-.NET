@@ -757,12 +757,12 @@ namespace ApiExamples
             doc.Save(MyDir + @"\Artifacts\EmptyValuesInChartData.docx");
         }
 
+        // Note: How we know about reletive size? Maybe we need public property for this?
         [Test]
         public void ReplaceRelativeSizeToAbsolute()
         {
-            Document doc = new Document(MyDir + "Shape.ShapeSize.docx");
+            Document doc = new Document(MyDir + "Shape.ShapeWithRelativeSize.docx");
             
-            //How we know about reletive size???
             Shape shape = (Shape)doc.GetChild(NodeType.Shape, 0, true);
 
             //Change shape size and rotation
@@ -770,8 +770,7 @@ namespace ApiExamples
             shape.Width = 500;
             shape.Rotation = 30;
 
-            //How assert result without reletive sizes???
-            doc.Save(MyDir + @"\Artifacts\Shape.Resize.docx");
+            doc.Save(MyDir + @"\Artifacts\Shape.ShapeWithAbsoluteSize.docx");
         }
     }
 }

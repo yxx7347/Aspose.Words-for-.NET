@@ -632,6 +632,9 @@ namespace ApiExamples
         [Test]
         public void EnableFontSubstitutionTrue()
         {
+            //ExStart
+            //ExFor:FontSettings.EnableFontSubstitution
+            //ExSummary:Shows how to set the property for finding the closest match font among the available font sources instead missing font.
             Document doc = new Document(MyDir + "Font.EnableFontSubstitution.docx");
 
             // Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class.
@@ -641,10 +644,11 @@ namespace ApiExamples
             FontSettings fontSettings = new FontSettings();
             fontSettings.DefaultFontName = "Arial";
             fontSettings.EnableFontSubstitution = true;
+            //ExEnd
 
             doc.FontSettings = fontSettings;
 
-            doc.Save(MyDir + @"\Artifacts\Font.EnableFontSubstitution Out.pdf");
+            doc.Save(MyDir + @"\Artifacts\Font.EnableFontSubstitution.pdf");
 
             Assert.True(callback.mFontWarnings[0].Description.Equals("Font '28 Days Later' has not been found. Using 'Franklin Gothic Medium' font instead. Reason: closest match according to font info from the document."));
         }
@@ -664,7 +668,7 @@ namespace ApiExamples
 
             doc.FontSettings = fontSettings;
 
-            doc.Save(MyDir + @"\Artifacts\Font.EnableFontSubstitution Out.pdf");
+            doc.Save(MyDir + @"\Artifacts\Font.EnableFontSubstitution.pdf");
 
             Assert.True(callback.mFontWarnings[0].Description.Equals("Font '28 Days Later' has not been found. Using 'Arial' font instead. Reason: default font setting."));
         }

@@ -1943,12 +1943,16 @@ namespace ApiExamples
             //ExEnd
         }
 
+        // Notes: 
+        // 1. AW does not insert headers and footers
+        // 2. All lists (bullets, numbering, multilevel) breaks when we inserting the document with KeepSourceFormatting.
         [Test]
-        public void InsertDocument() //Bug with content? Rework gold file.
+        public void InsertDocument()
         {
             //ExStart
             //ExFor:DocumentBuilder.InsertDocument(Document, ImportFormatMode)
-            //ExSummary:Shows how to insert a document content into another document keep formating of base document.
+            //ExFor:ImportFormatMode.KeepSourceFormatting
+            //ExSummary:Shows how to insert a document content into another document keep formating of inserted document.
             Document baseDoc = new Document(MyDir + "Document.docx");
             DocumentBuilder builder = new DocumentBuilder(baseDoc);
 
@@ -1960,8 +1964,6 @@ namespace ApiExamples
             builder.InsertDocument(docToInsert, ImportFormatMode.KeepSourceFormatting);
             //ExEnd
             builder.Document.Save(MyDir + @"\Artifacts\DocumentBuilder.InsertDocument.KeepSourceFormatting.docx");
-
-            Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\DocumentBuilder.InsertDocument.KeepSourceFormatting.docx", MyDir + @"\Golds\DocumentBuilder.InsertDocument Gold.docx"));
         }
 
         [Test]
@@ -2158,10 +2160,12 @@ namespace ApiExamples
             //ExEnd
         }
 
-        //Need to add gold files
         [Test]
         public void InsertStyleSeparator()
         {
+            //ExStart
+            //ExFor:DocumentBuilder.InsertStyleSeparator
+            //ExSummary:Shows how to separate styles from two different paragraphs used in one logical printed paragraph.
             DocumentBuilder builder = new DocumentBuilder(new Document());
 
             Style paraStyle = builder.Document.Styles.Add(StyleType.Paragraph, "MyParaStyle");
@@ -2177,6 +2181,7 @@ namespace ApiExamples
             // Append text with another style.
             builder.ParagraphFormat.StyleName = paraStyle.Name;
             builder.Write("This is text with some other formatting ");
+            //ExEnd
 
             builder.Document.Save(MyDir + @"\Artifacts\DocumentBuilder.InsertStyleSeparator.docx");
         }
