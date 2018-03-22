@@ -120,7 +120,6 @@
     <Compile Include="ExHtmlSaveOptions.cs" />
     <Compile Include="ExHtmlFixedSaveOptions.cs" />
     <Compile Include="ExPdfSaveOptions.cs" />
-    <Compile Include="ExSwfSaveOptions.cs" />
     <Compile Include="ExSavingCallback.cs" />
     <Compile Include="ExSection.cs" />
     <Compile Include="ExStyles.cs" />
