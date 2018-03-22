@@ -64,7 +64,7 @@ namespace ApiExamples
 
             StructuredDocumentTag sdt = (StructuredDocumentTag)sdts[0];
             Assert.AreEqual(true, sdt.Checked);
-            Assert.IsNull(sdt.XmlMapping.StoreItemId); //Assert that this sdt has no StoreItemId
+            Assert.IsEmpty(sdt.XmlMapping.StoreItemId); //Assert that this sdt has no StoreItemId
         }
 
         [Test]
