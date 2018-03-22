@@ -335,7 +335,7 @@ namespace ApiExamples
                         style='fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;' />
                   </svg> ");
 
-            builder.Document.Save(MyDir + @"\Artifacts\out.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.Png });
+            builder.Document.Save(MyDir + @"\Artifacts\HtmlSaveOptions.MetafileFormat Out.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.Svg });
         }
 
         [Test]
@@ -344,14 +344,11 @@ namespace ApiExamples
             DocumentBuilder builder = new DocumentBuilder();
             builder.Write("Here is an Png image: ");
             builder.InsertHtml(
-                @"<img src=""data:image/png;base64,
-                    iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGP
-                    C/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9YGARc5KB0XV+IA
-                    AAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAF1J
-                    REFUGNO9zL0NglAAxPEfdLTs4BZM4DIO4C7OwQg2JoQ9LE1exdlYvBBeZ7jq
-                    ch9//q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0
-                    vr4MkhoXe0rZigAAAABJRU5ErkJggg=="" alt=""Red dot"" />");
-            builder.Document.Save(MyDir + @"\Artifacts\out.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.Png });
+                @"<svg height='210' width='500'>
+                    <polygon points='100,10 40,198 190,78 10,78 160,198' 
+                        style='fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;' />
+                  </svg> ");
+            builder.Document.Save(MyDir + @"\Artifacts\HtmlSaveOptions.MetafileFormat Out.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.Png });
         }
 
         [Test]
@@ -367,7 +364,7 @@ namespace ApiExamples
                     REFUGNO9zL0NglAAxPEfdLTs4BZM4DIO4C7OwQg2JoQ9LE1exdlYvBBeZ7jq
                     ch9//q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0
                     vr4MkhoXe0rZigAAAABJRU5ErkJggg=="" alt=""Red dot"" />");
-            builder.Document.Save(MyDir + @"\Artifacts\out.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.EmfOrWmf });
+            builder.Document.Save(MyDir + @"\Artifacts\HtmlSaveOptions.MetafileFormat Out.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.EmfOrWmf });
         }
     }
 }

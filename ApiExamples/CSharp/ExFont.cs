@@ -630,6 +630,46 @@ namespace ApiExamples
         //ExEnd
 
         [Test]
+        public void EnableFontSubstitutionTrue()
+        {
+            Document doc = new Document(MyDir + "Font.EnableFontSubstitution.docx");
+
+            // Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class.
+            HandleDocumentWarnings callback = new HandleDocumentWarnings();
+            doc.WarningCallback = callback;
+
+            FontSettings fontSettings = new FontSettings();
+            fontSettings.DefaultFontName = "Arial";
+            fontSettings.EnableFontSubstitution = true;
+
+            doc.FontSettings = fontSettings;
+
+            doc.Save(MyDir + @"\Artifacts\Font.EnableFontSubstitution Out.pdf");
+
+            Assert.True(callback.mFontWarnings[0].Description.Equals("Font '28 Days Later' has not been found. Using 'Franklin Gothic Medium' font instead. Reason: closest match according to font info from the document."));
+        }
+
+        [Test]
+        public void EnableFontSubstitutionFalse()
+        {
+            Document doc = new Document(MyDir + "Font.EnableFontSubstitution.docx");
+
+            // Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class.
+            HandleDocumentWarnings callback = new HandleDocumentWarnings();
+            doc.WarningCallback = callback;
+
+            FontSettings fontSettings = new FontSettings();
+            fontSettings.DefaultFontName = "Arial";
+            fontSettings.EnableFontSubstitution = false;
+
+            doc.FontSettings = fontSettings;
+
+            doc.Save(MyDir + @"\Artifacts\Font.EnableFontSubstitution Out.pdf");
+
+            Assert.True(callback.mFontWarnings[0].Description.Equals("Font '28 Days Later' has not been found. Using 'Arial' font instead. Reason: default font setting."));
+        }
+
+        [Test]
         public void FontSubstitutionWarnings()
         {
             Document doc = new Document(MyDir + "Rendering.doc");
