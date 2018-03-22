@@ -94,7 +94,7 @@ namespace ApiExamples
         {
             //ExStart
             //ExFor:XmlMapping.StoreItemId
-            //ExSummary:Shows how to get id of your xml part.
+            //ExSummary:Shows how to get special id of your xml part.
             Document doc = new Document(MyDir + @"\Artifacts\SDT.CustomXml.docx");
             
             StructuredDocumentTag sdt = (StructuredDocumentTag)doc.GetChild(NodeType.StructuredDocumentTag, 0, true);
