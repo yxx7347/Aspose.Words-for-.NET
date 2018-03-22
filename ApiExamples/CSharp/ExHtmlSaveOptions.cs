@@ -5,6 +5,7 @@
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
+using System;
 using System.IO;
 using Aspose.Words;
 using NUnit.Framework;
@@ -174,7 +175,6 @@ namespace ApiExamples
                 DocumentHelper.FindTextInFile(MyDir + @"\Artifacts\HtmlSaveOptions.ExportUrlForLinkedImage.html", "<img src=\"HtmlSaveOptions.ExportUrlForLinkedImage.001.png\"");
         }
 
-        [Ignore("Bug, css styles starting with -aw, even if ExportRoundtripInformation is false")]
         [Test]
         [TestCase(true)]
         [TestCase(false)]
@@ -184,7 +184,7 @@ namespace ApiExamples
 
             HtmlSaveOptions saveOptions = new HtmlSaveOptions();
             saveOptions.ExportRoundtripInformation = valueHtml;
-
+            
             doc.Save(MyDir + @"\Artifacts\HtmlSaveOptions.RoundtripInformation.html");
 
             if (valueHtml)
@@ -335,29 +335,29 @@ namespace ApiExamples
                         style='fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;' />
                   </svg> ");
 
-            builder.Document.Save(MyDir + @"\Artifacts\out.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.Png });
+            builder.Document.Save(MyDir + @"\Artifacts\HtmlSaveOptions.MetafileFormat Out.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.Png });
         }
 
         [Test]
         public void PngMetafileFormat()
         {
             DocumentBuilder builder = new DocumentBuilder();
+
             builder.Write("Here is an Png image: ");
             builder.InsertHtml(
-                @"<img src=""data:image/png;base64,
-                    iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGP
-                    C/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9YGARc5KB0XV+IA
-                    AAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAF1J
-                    REFUGNO9zL0NglAAxPEfdLTs4BZM4DIO4C7OwQg2JoQ9LE1exdlYvBBeZ7jq
-                    ch9//q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0
-                    vr4MkhoXe0rZigAAAABJRU5ErkJggg=="" alt=""Red dot"" />");
-            builder.Document.Save(MyDir + @"\Artifacts\out.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.Png });
+                @"<svg height='210' width='500'>
+                    <polygon points='100,10 40,198 190,78 10,78 160,198' 
+                        style='fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;' />
+                  </svg> ");
+
+            builder.Document.Save(MyDir + @"\Artifacts\HtmlSaveOptions.MetafileFormat Out.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.Png });
         }
 
         [Test]
         public void EmfOrWmfMetafileFormat()
         {
             DocumentBuilder builder = new DocumentBuilder();
+
             builder.Write("Here is an image as is: ");
             builder.InsertHtml(
                 @"<img src=""data:image/png;base64,
@@ -367,7 +367,39 @@ namespace ApiExamples
                     REFUGNO9zL0NglAAxPEfdLTs4BZM4DIO4C7OwQg2JoQ9LE1exdlYvBBeZ7jq
                     ch9//q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0
                     vr4MkhoXe0rZigAAAABJRU5ErkJggg=="" alt=""Red dot"" />");
-            builder.Document.Save(MyDir + @"\Artifacts\out.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.EmfOrWmf });
+
+            builder.Document.Save(MyDir + @"\Artifacts\HtmlSaveOptions.MetafileFormat Out.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.EmfOrWmf });
+        }
+
+        [Test]
+        public void CssClassNamesPrefix()
+        {
+            Document doc = new Document(MyDir + "HtmlSaveOptions.CssClassNamePrefix.docx");
+
+            HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+            saveOptions.CssStyleSheetType = CssStyleSheetType.Embedded;
+            saveOptions.CssClassNamePrefix = "aspose-";
+            
+            doc.Save(MyDir + @"\Artifacts\HtmlSaveOptions.CssClassNamePrefix Out.html", saveOptions);
+        }
+
+        [Test]
+        public void CssClassNamesNotValidPrefix()
+        {
+            HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+            Assert.Throws<ArgumentException>(() => saveOptions.CssClassNamePrefix = "@%-", "The class name prefix must be a valid CSS identifier.");
+        }
+
+        [Test]
+        public void CssClassNamesNullPrefix()
+        {
+            Document doc = new Document(MyDir + "HtmlSaveOptions.CssClassNamePrefix.docx");
+
+            HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+            saveOptions.CssStyleSheetType = CssStyleSheetType.Embedded;
+            saveOptions.CssClassNamePrefix = null;
+
+            doc.Save(MyDir + @"\Artifacts\HtmlSaveOptions.CssClassNamePrefix Out.html", saveOptions);
         }
     }
 }

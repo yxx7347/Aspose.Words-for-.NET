@@ -6,11 +6,20 @@
 //////////////////////////////////////////////////////////////////////////
 
 using System;
+using Aspose.Pdf;
+using Aspose.Pdf.Annotations;
 using Aspose.Words;
 using Aspose.Words.Saving;
 using Aspose.Pdf.Facades;
 using Aspose.Pdf.Text;
 using NUnit.Framework;
+using Document = Aspose.Words.Document;
+using IWarningCallback = Aspose.Words.IWarningCallback;
+using PdfSaveOptions = Aspose.Words.Saving.PdfSaveOptions;
+using SaveFormat = Aspose.Words.SaveFormat;
+using SaveOptions = Aspose.Words.Saving.SaveOptions;
+using WarningInfo = Aspose.Words.WarningInfo;
+using WarningType = Aspose.Words.WarningType;
 
 namespace ApiExamples
 {
@@ -216,6 +225,47 @@ namespace ApiExamples
             saveOptions.MemoryOptimization = true;
 
             doc.Save(MyDir + @"\Artifacts\SaveOptions.MemoryOptimization Out.pdf", saveOptions);
+            //ExEnd
+        }
+
+        [Test]
+        public void EscapeUri()
+        {
+            //ExStart
+            //ExFor:
+            //ExSummary:
+            Document doc = new Document(MyDir + "PdfSaveOptions.EscapedUri.docx");
+
+            PdfSaveOptions options = new PdfSaveOptions();
+            options.EscapeUri = true;
+
+            doc.Save(MyDir + @"\Artifacts\PdfSaveOptions.EscapedUri Out.pdf", options);
+            //ExEnd
+        }
+
+        [Test]
+        [TestCase(@"https://www.google.com/search?q= aspose", @"https://www.google.com/search?q=%20aspose")]
+        public void EscapeUri(string uri, string result)
+        {
+            DocumentBuilder builder = new DocumentBuilder();
+            builder.InsertHyperlink("Testlink", uri, false);
+
+            PdfSaveOptions options = new PdfSaveOptions();
+            options.EscapeUri = true;
+
+            builder.Document.Save(MyDir + @"\Artifacts\PdfSaveOptions.EscapedUri Out.pdf", options);
+
+            Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(MyDir + @"\Artifacts\PdfSaveOptions.EscapedUri Out.pdf");
+
+            // get first page
+            Page page = pdfDocument.Pages[1];
+            // get the first link annotation
+            LinkAnnotation linkAnnot = (LinkAnnotation)page.Annotations[1];
+
+            GoToURIAction action = (GoToURIAction)linkAnnot.Action;
+            string uriText = action.URI;
+
+            Assert.AreEqual(@"https://www.google.com/search?q=%20aspose", uriText);
             //ExEnd
         }
 
