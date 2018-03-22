@@ -87,52 +87,42 @@ namespace ApiExamples
             doc.Save(MyDir + @"\Artifacts\ReplaceWithRegex.docx");
         }
 
-        //Why it doesn't work
+        // Note: Need more info from dev.
         [Test]
-        public void ReplacementSecondMetaVariant()
+        public void ReplaceWithoutPreserveMetaCharacters()
         {
-            var doc = new Document();
+            const string text = "some text";
+            const string replaceWithText = "&ldquo;";
 
-            var text = "some text";
-            var replaceWithText = "&ldquo;some text&rdquo;";
+            Document doc = new Document();
 
-            var builder = new DocumentBuilder(doc);
+            DocumentBuilder builder = new DocumentBuilder(doc);
             builder.Write(text);
 
             FindReplaceOptions options = new FindReplaceOptions();
-            options.PreserveMetaCharacters = true;
+            options.PreserveMetaCharacters = false;
 
             doc.Range.Replace(text, replaceWithText, options);
 
-            doc.Save(MyDir + "123.html");
+            Assert.AreEqual("\vdquo;\f", doc.GetText());
         }
 
         [Test]
-        public void ReplaceWithoutMeta()
+        public void FindAndReplaceWithPreserveMetaCharacters()
         {
-            Document doc = new Document(MyDir + "sadmad.docx");
-
-            FindReplaceOptions options = new FindReplaceOptions();
-            options.FindWholeWordsOnly = true;
-            options.PreserveMetaCharacters = false;
-
-            doc.Range.Replace("sad", "&ldquo;some text&rdquo;", options);
-
-            doc.Save(MyDir + "123.docx");
-        }
-
-        [Test]
-        public void ReplaceWithMetacharacters()
-        {
-            Document doc = new Document(MyDir + "sadmad.docx");
+            //ExStart
+            //ExFor:FindReplaceOptions.PreserveMetaCharacters
+            //ExSummary:Shows how to preserved meta-characters that beginning with "&".
+            Document doc = new Document(MyDir + "Range.FindAndReplaceWithPreserveMetaCharacters.docx");
 
             FindReplaceOptions options = new FindReplaceOptions();
             options.FindWholeWordsOnly = true;
             options.PreserveMetaCharacters = true;
 
-            doc.Range.Replace("sad", "&ldquo;some text&rdquo;", options);
+            doc.Range.Replace("sad", "&ldquo; some text &rdquo;", options);
+            //ExEnd
 
-            doc.Save(MyDir + "123.docx");
+            doc.Save(MyDir + "Range.FindAndReplaceWithMetacharacters.docx");
         }
 
         [Test]
