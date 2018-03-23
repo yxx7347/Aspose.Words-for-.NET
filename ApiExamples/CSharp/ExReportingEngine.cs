@@ -129,6 +129,16 @@ namespace ApiExamples
         }
 
         [Test]
+        public void SetChartSeriesColorsDynamically()
+        {
+            Document doc = new Document(MyDir + "ReportingEngine.SetColorDinamically.docx");
+            DataSet ds = DataSet.AddTestData();
+
+            BuildReport(doc, ds.Managers , "managers");
+            doc.Save(MyDir + @"\Artifacts\ReportingEngine.SetColorDinamically.docx");
+        }
+
+        [Test]
         public void ConditionalExpressionForLeaveChartSeries()
         {
             Document doc = new Document(MyDir + "ReportingEngine.TestRemoveChartSeries.docx");
