@@ -1,4 +1,4 @@
-﻿namespace ApiExamples.TestData
+﻿namespace ApiExamples.TestData.TestClasses
 {
     public class NumericDataSourceWithMethod
     {

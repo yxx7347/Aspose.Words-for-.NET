@@ -129,10 +129,14 @@
     <Compile Include="ExTabStopCollection.cs" />
     <Compile Include="ExVariableCollection.cs" />
     <Compile Include="ExWarningInfoCollection.cs" />
+    <Compile Include="TestData\TestBuilders\ColorItemTestBuilder.cs" />
+    <Compile Include="TestData\TestBuilders\DocumentTestBuilder.cs" />
+    <Compile Include="TestData\TestClasses\ColorItemTestClass.cs" />
+    <Compile Include="TestData\Common.cs" />
     <Compile Include="TestData\SignPerson.cs" />
-    <Compile Include="TestData\Colors.cs" />
-    <Compile Include="TestData\NumericDataSourceWithMethod.cs" />
-    <Compile Include="TestData\DocumentDataSource.cs" />
+    <Compile Include="TestData\TestClasses\Colors.cs" />
+    <Compile Include="TestData\TestClasses\NumericDataSourceWithMethod.cs" />
+    <Compile Include="TestData\TestClasses\DocumentTestClass.cs" />
     <Compile Include="TestData\TestTables.cs">
       <DependentUpon>TestTables.xsd</DependentUpon>
     </Compile>
@@ -141,9 +145,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TestTables.xsd</DependentUpon>
     </Compile>
-    <Compile Include="TestData\NumericDataSource.cs" />
-    <Compile Include="TestData\ImageDataSource.cs" />
-    <Compile Include="TestData\SimpleDataSource.cs" />
+    <Compile Include="TestData\TestClasses\NumericTestClass.cs" />
+    <Compile Include="TestData\TestClasses\ImageTestClass.cs" />
+    <Compile Include="TestData\TestClasses\MessageTestClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

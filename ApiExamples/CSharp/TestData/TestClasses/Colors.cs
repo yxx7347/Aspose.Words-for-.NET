@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace ApiExamples.TestData
+namespace ApiExamples.TestData.TestClasses
 {
     public class Colors
     {
