@@ -59,7 +59,8 @@ namespace ApiExamples
         {
             Aspose.Words.Document doc = DocumentHelper.CreateSimpleDocument("<<[s.Value1]:alphabetic>> : <<[s.Value2]:roman:lower>>, <<[s.Value3]:ordinal>>, <<[s.Value1]:ordinalText:upper>>" + ", <<[s.Value2]:cardinal>>, <<[s.Value3]:hex>>, <<[s.Value3]:arabicDash>>");
 
-            NumericTestClass sender = new NumericTestClass(1, 2.2, 200, DateTime.Parse("10.09.2016 10:00:00"));
+            NumericTestClass sender = new NumericTestBuilder().WithValuesAndDate(1, 2.2, 200, null, DateTime.Parse("10.09.2016 10:00:00")).Build();
+
             BuildReport(doc, sender, "s");
 
             MemoryStream dstStream = new MemoryStream();
@@ -92,7 +93,6 @@ namespace ApiExamples
             Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\ReportingEngine.Total.docx", MyDir + @"\Golds\ReportingEngine.Total Gold.docx"));
         }
 
-        //!!Need to rework doc
         [Test]
         public void NestedDataTableTest()
         {
@@ -223,10 +223,11 @@ namespace ApiExamples
         public void Operators()
         {
             Aspose.Words.Document doc = new Aspose.Words.Document(MyDir + "ReportingEngine.Operators.docx");
-            NumericTestClass testData = new NumericTestClass(1, 2.0, 3, null, true);
+
+            NumericTestClass testData = new NumericTestBuilder().WithValuesAndLogical(1, 2.0, 3, null, true).Build();
 
             ReportingEngine report = new ReportingEngine();
-            report.KnownTypes.Add(typeof(NumericTestClass));
+            report.KnownTypes.Add(typeof(NumericTestBuilder));
             report.BuildReport(doc, testData, "ds");
 
             doc.Save(MyDir + @"\Artifacts\ReportingEngine.Operators.docx");
@@ -381,7 +382,6 @@ namespace ApiExamples
             Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\ReportingEngine.KnownTypes.docx", MyDir + @"\Golds\ReportingEngine.KnownTypes Gold.docx"));
         }
 
-
         [Test]
         [Ignore("WORDSNET-16258")]
         public void StretchImagefitHeight()
@@ -525,25 +525,12 @@ namespace ApiExamples
         {
             Aspose.Words.Document doc = new Aspose.Words.Document(MyDir + "ReportingEngine.BackColor.docx");
 
-            List<Colors> colors = new List<Colors>();
-            colors.Add(new Colors
+            List<ColorItemTestClass> colors = new List<ColorItemTestClass>
             {
-                ColorCode = Color.Black,
-                ColorName = "Black",
-                Description = "Black color"
-            });
-            colors.Add(new Colors
-            {
-                ColorCode = Color.FromArgb(255, 0, 0),
-                ColorName = "Red",
-                Description = "Red color"
-            });
-            colors.Add(new Colors
-            {
-                ColorCode = Color.Empty,
-                ColorName = "Empty",
-                Description = "Empty color"
-            });
+                new ColorItemTestBuilder().WithColor("Black", Color.Black).Build(),
+                new ColorItemTestBuilder().WithColor("Red", Color.FromArgb(255, 0, 0)).Build(),
+                new ColorItemTestBuilder().WithColor("Empty", Color.Empty).Build()
+            };
 
             BuildReport(doc, colors, "Colors");
 
