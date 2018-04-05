@@ -11,7 +11,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using ApiExamples.TestData;
+using ApiExamples.TestData.TestClasses;
 using Aspose.Words;
 using Aspose.Words.Drawing;
 using NUnit.Framework;
@@ -47,7 +47,7 @@ namespace ApiExamples
 
             // Get sign person object by name of the person who must sign a document.
             // This an example, in real use case you would return an object from a database.
-            SignPerson signPersonInfo = (from c in mSignPersonList where c.Name == signPersonName select c).FirstOrDefault();
+            SignPersonTestClass signPersonInfo = (from c in mSignPersonList where c.Name == signPersonName select c).FirstOrDefault();
 
             if (signPersonInfo != null)
             {
@@ -67,7 +67,7 @@ namespace ApiExamples
         /// <summary>
         /// Signs the document obtained at the source location and saves it to the specified destination.
         /// </summary>
-        private static void SignDocument(string srcDocumentPath, string dstDocumentPath, SignPerson signPersonInfo, string certificatePath, string certificatePassword)
+        private static void SignDocument(string srcDocumentPath, string dstDocumentPath, SignPersonTestClass signPersonInfo, string certificatePath, string certificatePassword)
         {
             // Create new document instance based on a test file that we need to sign.
             Document document = new Document(srcDocumentPath);
@@ -111,26 +111,14 @@ namespace ApiExamples
         /// </summary>
         private static void CreateSignPersonData()
         {
-            mSignPersonList = new List<SignPerson>
+            mSignPersonList = new List<SignPersonTestClass>
             {
-                new SignPerson
-                {
-                    PersonId = Guid.NewGuid(),
-                    Name = "Ron Williams",
-                    Position = "Chief Executive Officer",
-                    Image = ImageToByteArray(Image.FromFile(ImageDir + "LogoSmall.png"))
-                },
-                new SignPerson
-                {
-                    PersonId = Guid.NewGuid(),
-                    Name = "Stephen Morse",
-                    Position = "Head of Compliance",
-                    Image = ImageToByteArray(Image.FromFile(ImageDir + "LogoSmall.png"))
-                }
+                new SignPersonTestClass(Guid.NewGuid(), "Ron Williams", "Chief Executive Officer", ImageToByteArray(Image.FromFile(ImageDir + "LogoSmall.png"))),
+                new SignPersonTestClass(Guid.NewGuid(), "Stephen Morse", "Head of Compliance", ImageToByteArray(Image.FromFile(ImageDir + "LogoSmall.png")))
             };
         }
 
-        private static List<SignPerson> mSignPersonList;
+        private static List<SignPersonTestClass> mSignPersonList;
         //ExEnd
     }
 }

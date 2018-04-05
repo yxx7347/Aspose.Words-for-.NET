@@ -132,20 +132,15 @@
     <Compile Include="TestData\TestBuilders\ColorItemTestBuilder.cs" />
     <Compile Include="TestData\TestBuilders\DocumentTestBuilder.cs" />
     <Compile Include="TestData\TestBuilders\ImageTestBuilder.cs" />
+    <Compile Include="TestData\TestClasses\ClientTestClass.cs" />
     <Compile Include="TestData\TestClasses\ColorItemTestClass.cs" />
     <Compile Include="TestData\Common.cs" />
-    <Compile Include="TestData\SignPerson.cs" />
+    <Compile Include="TestData\TestClasses\SignPersonTestClass.cs" />
     <Compile Include="TestData\TestClasses\Colors.cs" />
+    <Compile Include="TestData\TestClasses\ContractTestClass.cs" />
+    <Compile Include="TestData\TestClasses\ManagerTestClass.cs" />
     <Compile Include="TestData\TestClasses\NumericDataSourceWithMethod.cs" />
     <Compile Include="TestData\TestClasses\DocumentTestClass.cs" />
-    <Compile Include="TestData\TestTables.cs">
-      <DependentUpon>TestTables.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="TestData\TestTables.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TestTables.xsd</DependentUpon>
-    </Compile>
     <Compile Include="TestData\TestClasses\NumericTestClass.cs" />
     <Compile Include="TestData\TestClasses\ImageTestClass.cs" />
     <Compile Include="TestData\TestClasses\MessageTestClass.cs" />
@@ -158,17 +153,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="TestData\TestTables.xsc">
-      <DependentUpon>TestTables.xsd</DependentUpon>
-    </None>
-    <None Include="TestData\TestTables.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>TestTables.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="TestData\TestTables.xss">
-      <DependentUpon>TestTables.xsd</DependentUpon>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
