@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ApiExamples.TestData.TestClasses;
 
 namespace ApiExamples.TestData
@@ -145,6 +146,11 @@ namespace ApiExamples.TestData
             };
 
             yield return manager;
+        }
+
+        public static IEnumerable<ManagerTestClass> GetEmptyManagers()
+        {
+            return Enumerable.Empty<ManagerTestClass>();
         }
 
         public static IEnumerable<ClientTestClass> GetClients()

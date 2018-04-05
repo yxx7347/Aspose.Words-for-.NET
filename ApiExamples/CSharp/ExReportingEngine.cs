@@ -92,6 +92,7 @@ namespace ApiExamples
             Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\ReportingEngine.Total.docx", MyDir + @"\Golds\ReportingEngine.Total Gold.docx"));
         }
 
+        //!!Need to rework doc
         [Test]
         public void NestedDataTableTest()
         {
@@ -110,6 +111,7 @@ namespace ApiExamples
             Aspose.Words.Document doc = new Aspose.Words.Document(MyDir + "ReportingEngine.TestChart.docx");
             
             BuildReport(doc, Common.GetManagers(), "managers");
+
             doc.Save(MyDir + @"\Artifacts\ReportingEngine.TestChart.docx");
 
             Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\ReportingEngine.TestChart.docx", MyDir + @"\Golds\ReportingEngine.TestChart Gold.docx"));
@@ -127,6 +129,7 @@ namespace ApiExamples
             Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\ReportingEngine.TestBubbleChart.docx", MyDir + @"\Golds\ReportingEngine.TestBubbleChart Gold.docx"));
         }
 
+        //!!Need to rework
         [Test]
         public void SetChartSeriesColorsDynamically()
         {
@@ -145,6 +148,7 @@ namespace ApiExamples
             int condition = 3;
 
             BuildReport(doc, new object[] { Common.GetManagers(), condition }, new[] { "managers", "condition" });
+
             doc.Save(MyDir + @"\Artifacts\ReportingEngine.TestLeaveChartSeries.docx");
 
             Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\ReportingEngine.TestLeaveChartSeries.docx", MyDir + @"\Golds\ReportingEngine.TestLeaveChartSeries Gold.docx"));
@@ -158,6 +162,7 @@ namespace ApiExamples
             int condition = 2;
 
             BuildReport(doc, new object[] { Common.GetManagers(), condition }, new[] { "managers", "condition" });
+
             doc.Save(MyDir + @"\Artifacts\ReportingEngine.TestRemoveChartSeries.docx");
 
             Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\ReportingEngine.TestRemoveChartSeries.docx", MyDir + @"\Golds\ReportingEngine.TestRemoveChartSeries Gold.docx"));
@@ -168,12 +173,12 @@ namespace ApiExamples
         {
             Aspose.Words.Document doc = new Aspose.Words.Document(MyDir + "ReportingEngine.TestIndexOf.docx");
             
-            BuildReport(doc, Common.GetManagers(), "ds");
+            BuildReport(doc, Common.GetManagers(), "Managers");
 
             MemoryStream dstStream = new MemoryStream();
             doc.Save(dstStream, SaveFormat.Docx);
 
-            Assert.AreEqual("The names are: Name 1, Name 2, Name 3\f", doc.GetText());
+            Assert.AreEqual("The names are: John Smith, Tony Anderson, July James\f", doc.GetText());
         }
 
         [Test]
@@ -194,7 +199,7 @@ namespace ApiExamples
         {
             Aspose.Words.Document doc = new Aspose.Words.Document(MyDir + "ReportingEngine.IfElse.docx");
             
-            BuildReport(doc, Common.GetManagers(), "m");
+            BuildReport(doc, Common.GetEmptyManagers(), "m");
 
             MemoryStream dstStream = new MemoryStream();
             doc.Save(dstStream, SaveFormat.Docx);
@@ -207,7 +212,7 @@ namespace ApiExamples
         {
             Aspose.Words.Document doc = new Aspose.Words.Document(MyDir + "ReportingEngine.ExtensionMethods.docx");
             
-            BuildReport(doc, Common.GetManagers(), "ds");
+            BuildReport(doc, Common.GetManagers(), "Managers");
 
             doc.Save(MyDir + @"\Artifacts\ReportingEngine.ExtensionMethods.docx");
 
@@ -218,10 +223,10 @@ namespace ApiExamples
         public void Operators()
         {
             Aspose.Words.Document doc = new Aspose.Words.Document(MyDir + "ReportingEngine.Operators.docx");
-            NumericDataSourceWithMethod testData = new NumericDataSourceWithMethod(1, 2.0, 3, null, true);
+            NumericTestClass testData = new NumericTestClass(1, 2.0, 3, null, true);
 
             ReportingEngine report = new ReportingEngine();
-            report.KnownTypes.Add(typeof(NumericDataSourceWithMethod));
+            report.KnownTypes.Add(typeof(NumericTestClass));
             report.BuildReport(doc, testData, "ds");
 
             doc.Save(MyDir + @"\Artifacts\ReportingEngine.Operators.docx");
@@ -234,7 +239,7 @@ namespace ApiExamples
         {
             Aspose.Words.Document doc = new Aspose.Words.Document(MyDir + "ReportingEngine.ContextualObjectMemberAccess.docx");
             
-            BuildReport(doc, Common.GetManagers(), "ds");
+            BuildReport(doc, Common.GetManagers(), "Managers");
 
             doc.Save(MyDir + @"\Artifacts\ReportingEngine.ContextualObjectMemberAccess.docx");
 

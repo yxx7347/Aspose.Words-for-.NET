@@ -132,16 +132,15 @@
     <Compile Include="TestData\TestBuilders\ColorItemTestBuilder.cs" />
     <Compile Include="TestData\TestBuilders\DocumentTestBuilder.cs" />
     <Compile Include="TestData\TestBuilders\ImageTestBuilder.cs" />
+    <Compile Include="TestData\TestBuilders\NumericTestBuilder.cs" />
     <Compile Include="TestData\TestClasses\ClientTestClass.cs" />
     <Compile Include="TestData\TestClasses\ColorItemTestClass.cs" />
     <Compile Include="TestData\Common.cs" />
     <Compile Include="TestData\TestClasses\SignPersonTestClass.cs" />
-    <Compile Include="TestData\TestClasses\Colors.cs" />
     <Compile Include="TestData\TestClasses\ContractTestClass.cs" />
     <Compile Include="TestData\TestClasses\ManagerTestClass.cs" />
-    <Compile Include="TestData\TestClasses\NumericDataSourceWithMethod.cs" />
-    <Compile Include="TestData\TestClasses\DocumentTestClass.cs" />
     <Compile Include="TestData\TestClasses\NumericTestClass.cs" />
+    <Compile Include="TestData\TestClasses\DocumentTestClass.cs" />
     <Compile Include="TestData\TestClasses\ImageTestClass.cs" />
     <Compile Include="TestData\TestClasses\MessageTestClass.cs" />
   </ItemGroup>
