@@ -85,7 +85,7 @@ namespace ApiExamples
         {
             Aspose.Words.Document doc = new Aspose.Words.Document(MyDir + "ReportingEngine.Total.docx");
 
-            BuildReport(doc, Common.GetManagers(), "ds");
+            BuildReport(doc, Common.GetContracts(), "Contracts");
 
             doc.Save(MyDir + @"\Artifacts\ReportingEngine.Total.docx");
 
@@ -97,7 +97,7 @@ namespace ApiExamples
         {
             Aspose.Words.Document doc = new Aspose.Words.Document(MyDir + "ReportingEngine.TestNestedDataTable.docx");
 
-            BuildReport(doc, Common.GetManagers(), "ds");
+            BuildReport(doc, Common.GetManagers(), "Managers");
 
             doc.Save(MyDir + @"\Artifacts\ReportingEngine.TestNestedDataTable.docx");
 
