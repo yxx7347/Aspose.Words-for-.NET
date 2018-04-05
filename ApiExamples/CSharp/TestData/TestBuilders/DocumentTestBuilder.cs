@@ -4,7 +4,7 @@ using Aspose.Words;
 
 namespace ApiExamples.TestData.TestBuilders
 {
-    public class DocumentTestBuilder
+    public class DocumentTestBuilder : ApiExampleBase
     {
         private Document mDocument;
         private Stream mDocumentStream;

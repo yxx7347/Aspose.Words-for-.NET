@@ -22,8 +22,8 @@ namespace ApiExamples
     [TestFixture]
     public class ExReportingEngine : ApiExampleBase
     {
-        private readonly String _image = ImageDir + "Test_636_852.gif";
-        private readonly String _doc = MyDir + "ReportingEngine.TestDataTable.docx";
+        private readonly String mImage = ImageDir + "Test_636_852.gif";
+        private readonly String mDocument = MyDir + "ReportingEngine.TestDataTable.docx";
 
         [Test]
         public void SimpleCase()
@@ -270,7 +270,7 @@ namespace ApiExamples
             // By stream
             Aspose.Words.Document template = DocumentHelper.CreateSimpleDocument("<<doc [src.DocumentStream]>>");
 
-            DocumentTestClass docStream = new DocumentTestBuilder().WithDocumentStream(new FileStream(this._doc, FileMode.Open, FileAccess.Read)).Build();
+            DocumentTestClass docStream = new DocumentTestBuilder().WithDocumentStream(new FileStream(this.mDocument, FileMode.Open, FileAccess.Read)).Build();
 
             BuildReport(template, docStream, "src", ReportBuildOptions.None);
             template.Save(MyDir + @"\Artifacts\ReportingEngine.InsertDocumentDinamically.docx");
@@ -304,45 +304,53 @@ namespace ApiExamples
             Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\ReportingEngine.InsertDocumentDinamically.docx", MyDir + @"\Golds\ReportingEngine.InsertDocumentDinamically(uri) Gold.docx"), "Fail inserting document by uri");
         }
 
-        //[Test]
-        //public void InsertImageDinamically()
-        //{
-        //    // By stream
-        //    Aspose.Words.Document template = DocumentHelper.CreateTemplateDocumentWithDrawObjects("<<image [src.Stream]>>", ShapeType.TextBox);
-        //    ImageTestClass docByStream = new ImageTestClass(new FileStream(this._image, FileMode.Open, FileAccess.Read));
+        [Test]
+        public void InsertImageDinamically()
+        {
+            Aspose.Words.Document template = DocumentHelper.CreateTemplateDocumentWithDrawObjects("<<image [src.Image]>>", ShapeType.TextBox);
+            ImageTestClass image = new ImageTestBuilder().WithImage(Image.FromFile(this.mImage, true)).Build();
 
-        //    BuildReport(template, docByStream, "src", ReportBuildOptions.None);
-        //    template.Save(MyDir + @"\Artifacts\ReportingEngine.InsertImageDinamically.docx");
+            BuildReport(template, image, "src", ReportBuildOptions.None);
+            template.Save(MyDir + @"\Artifacts\ReportingEngine.InsertImageDinamically.docx");
 
-        //    Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\ReportingEngine.InsertImageDinamically.docx", MyDir + @"\Golds\ReportingEngine.InsertImageDinamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
+            Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\ReportingEngine.InsertImageDinamically.docx", MyDir + @"\Golds\ReportingEngine.InsertImageDinamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
+        }
 
-        //    // By image
-        //    template = DocumentHelper.CreateTemplateDocumentWithDrawObjects("<<image [src.Image]>>", ShapeType.TextBox);
-        //    Image docByImg = new Image(Image.FromFile(this._image, true));
+        [Test]
+        public void InsertImageDinamicallyByStream()
+        {
+            Aspose.Words.Document template = DocumentHelper.CreateTemplateDocumentWithDrawObjects("<<image [src.ImageStream]>>", ShapeType.TextBox);
+            ImageTestClass imageStream = new ImageTestBuilder().WithImageStream(new FileStream(this.mImage, FileMode.Open, FileAccess.Read)).Build();
 
-        //    BuildReport(template, docByImg, "src", ReportBuildOptions.None);
-        //    template.Save(MyDir + @"\Artifacts\ReportingEngine.InsertImageDinamically.docx");
+            BuildReport(template, imageStream, "src", ReportBuildOptions.None);
+            template.Save(MyDir + @"\Artifacts\ReportingEngine.InsertImageDinamically.docx");
 
-        //    Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\ReportingEngine.InsertImageDinamically.docx", MyDir + @"\Golds\ReportingEngine.InsertImageDinamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
+            Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\ReportingEngine.InsertImageDinamically.docx", MyDir + @"\Golds\ReportingEngine.InsertImageDinamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
+        }
 
-        //    // By Uri
-        //    template = DocumentHelper.CreateTemplateDocumentWithDrawObjects("<<image [src.Uri]>>", ShapeType.TextBox);
-        //    ImageTestClass docByUri = new ImageTestClass("http://joomla-aspose.dynabic.com/templates/aspose/App_Themes/V3/images/customers/americanexpress.png");
+        [Test]
+        public void InsertImageDinamicallyByBytes()
+        {
+            Aspose.Words.Document template = DocumentHelper.CreateTemplateDocumentWithDrawObjects("<<image [src.ImageBytes]>>", ShapeType.TextBox);
+            ImageTestClass imageBytes = new ImageTestBuilder().WithImageBytes(File.ReadAllBytes(this.mImage)).Build();
 
-        //    BuildReport(template, docByUri, "src", ReportBuildOptions.None);
-        //    template.Save(MyDir + @"\Artifacts\ReportingEngine.InsertImageDinamically.docx");
+            BuildReport(template, imageBytes, "src", ReportBuildOptions.None);
+            template.Save(MyDir + @"\Artifacts\ReportingEngine.InsertImageDinamically.docx");
 
-        //    Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\ReportingEngine.InsertImageDinamically.docx", MyDir + @"\Golds\ReportingEngine.InsertImageDinamically(uri) Gold.docx"), "Fail inserting document by bytes");
+            Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\ReportingEngine.InsertImageDinamically.docx", MyDir + @"\Golds\ReportingEngine.InsertImageDinamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
+        }
 
-        //    // By bytes
-        //    template = DocumentHelper.CreateTemplateDocumentWithDrawObjects("<<image [src.Bytes]>>", ShapeType.TextBox);
-        //    ImageTestClass docByBytes = new ImageTestClass(File.ReadAllBytes(this._image));
+        [Test]
+        public void InsertImageDinamicallyByUri()
+        {
+            Aspose.Words.Document template = DocumentHelper.CreateTemplateDocumentWithDrawObjects("<<image [src.ImageUri]>>", ShapeType.TextBox);
+            ImageTestClass imageUri = new ImageTestBuilder().WithImageUri("http://joomla-aspose.dynabic.com/templates/aspose/App_Themes/V3/images/customers/americanexpress.png").Build();
 
-        //    BuildReport(template, docByBytes, "src", ReportBuildOptions.None);
-        //    template.Save(MyDir + @"\Artifacts\ReportingEngine.InsertImageDinamically.docx");
+            BuildReport(template, imageUri, "src", ReportBuildOptions.None);
+            template.Save(MyDir + @"\Artifacts\ReportingEngine.InsertImageDinamically.docx");
 
-        //    Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\ReportingEngine.InsertImageDinamically.docx", MyDir + @"\Golds\ReportingEngine.InsertImageDinamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
-        //}
+            Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\ReportingEngine.InsertImageDinamically.docx", MyDir + @"\Golds\ReportingEngine.InsertImageDinamically(uri) Gold.docx"), "Fail inserting document by bytes");
+        }
 
         [Test]
         public void WithoutKnownType()
@@ -383,12 +391,10 @@ namespace ApiExamples
         [Ignore("WORDSNET-16258")]
         public void StretchImagefitHeight()
         {
-            Aspose.Words.Document doc = DocumentHelper.CreateTemplateDocumentWithDrawObjects("<<image [src.Stream] -fitHeight>>", ShapeType.TextBox);
+            Aspose.Words.Document doc = DocumentHelper.CreateTemplateDocumentWithDrawObjects("<<image [src.ImageStream] -fitHeight>>", ShapeType.TextBox);
 
-            ImageTestClass imageStream = new ImageTestClass(new FileStream(this._image, FileMode.Open, FileAccess.Read));
+            ImageTestClass imageStream = new ImageTestBuilder().WithImageStream(new FileStream(this.mImage, FileMode.Open, FileAccess.Read)).Build();
             BuildReport(doc, imageStream, "src", ReportBuildOptions.None);
-
-            doc.Save(MyDir + "123.docx");
 
             MemoryStream dstStream = new MemoryStream();
             doc.Save(dstStream, SaveFormat.Docx);
@@ -413,9 +419,9 @@ namespace ApiExamples
         [Ignore("WORDSNET-16258")]
         public void StretchImagefitWidth()
         {
-            Aspose.Words.Document doc = DocumentHelper.CreateTemplateDocumentWithDrawObjects("<<image [src.Stream] -fitWidth>>", ShapeType.TextBox);
+            Aspose.Words.Document doc = DocumentHelper.CreateTemplateDocumentWithDrawObjects("<<image [src.ImageStream] -fitWidth>>", ShapeType.TextBox);
 
-            ImageTestClass imageStream = new ImageTestClass(new FileStream(this._image, FileMode.Open, FileAccess.Read));
+            ImageTestClass imageStream = new ImageTestBuilder().WithImageStream(new FileStream(this.mImage, FileMode.Open, FileAccess.Read)).Build();
             BuildReport(doc, imageStream, "src", ReportBuildOptions.None);
 
             MemoryStream dstStream = new MemoryStream();
@@ -441,9 +447,9 @@ namespace ApiExamples
         [Ignore("WORDSNET-16258")]
         public void StretchImagefitSize()
         {
-            Aspose.Words.Document doc = DocumentHelper.CreateTemplateDocumentWithDrawObjects("<<image [src.Stream] -fitSize>>", ShapeType.TextBox);
+            Aspose.Words.Document doc = DocumentHelper.CreateTemplateDocumentWithDrawObjects("<<image [src.ImageStream] -fitSize>>", ShapeType.TextBox);
 
-            ImageTestClass imageStream = new ImageTestClass(new FileStream(this._image, FileMode.Open, FileAccess.Read));
+            ImageTestClass imageStream = new ImageTestBuilder().WithImageStream(new FileStream(this.mImage, FileMode.Open, FileAccess.Read)).Build();
             BuildReport(doc, imageStream, "src", ReportBuildOptions.None);
 
             MemoryStream dstStream = new MemoryStream();
@@ -469,9 +475,9 @@ namespace ApiExamples
         [Ignore("WORDSNET-16258")]
         public void StretchImagefitSizeLim()
         {
-            Aspose.Words.Document doc = DocumentHelper.CreateTemplateDocumentWithDrawObjects("<<image [src.Stream] -fitSizeLim>>", ShapeType.TextBox);
+            Aspose.Words.Document doc = DocumentHelper.CreateTemplateDocumentWithDrawObjects("<<image [src.ImageStream] -fitSizeLim>>", ShapeType.TextBox);
 
-            ImageTestClass imageStream = new ImageTestClass(new FileStream(this._image, FileMode.Open, FileAccess.Read));
+            ImageTestClass imageStream = new ImageTestBuilder().WithImageStream(new FileStream(this.mImage, FileMode.Open, FileAccess.Read)).Build();
             BuildReport(doc, imageStream, "src", ReportBuildOptions.None);
 
             MemoryStream dstStream = new MemoryStream();
@@ -559,13 +565,13 @@ namespace ApiExamples
             engine.BuildReport(document, dataSource, dataSourceName);
         }
 
-        private static void BuildReport(Aspose.Words.Document document, object[] dataSource, String[] dataSourceName)
+        private static void BuildReport(Aspose.Words.Document document, object[] dataSource, string[] dataSourceName)
         {
             ReportingEngine engine = new ReportingEngine();
             engine.BuildReport(document, dataSource, dataSourceName);
         }
 
-        private static void BuildReport(Aspose.Words.Document document, object dataSource, String dataSourceName)
+        private static void BuildReport(Aspose.Words.Document document, object dataSource, string dataSourceName)
         {
             ReportingEngine engine = new ReportingEngine();
             engine.BuildReport(document, dataSource, dataSourceName);

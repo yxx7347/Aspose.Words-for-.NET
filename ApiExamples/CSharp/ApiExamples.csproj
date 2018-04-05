@@ -131,6 +131,7 @@
     <Compile Include="ExWarningInfoCollection.cs" />
     <Compile Include="TestData\TestBuilders\ColorItemTestBuilder.cs" />
     <Compile Include="TestData\TestBuilders\DocumentTestBuilder.cs" />
+    <Compile Include="TestData\TestBuilders\ImageTestBuilder.cs" />
     <Compile Include="TestData\TestClasses\ColorItemTestClass.cs" />
     <Compile Include="TestData\Common.cs" />
     <Compile Include="TestData\SignPerson.cs" />

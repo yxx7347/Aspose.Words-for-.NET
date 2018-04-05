@@ -1,32 +1,21 @@
-﻿using System.IO;
+﻿using System.Drawing;
+using System.IO;
 
 namespace ApiExamples.TestData.TestClasses
 {
     public class ImageTestClass
     {
-        private readonly Stream mStream;
-        private readonly ImageTestClass mImage;
-        private readonly byte[] mBytes;
-        private readonly string mUri;
+        public Image Image { get; set; }
+        public Stream ImageStream { get; set; }
+        public byte[] ImageBytes { get; set; }
+        public string ImageUri { get; set; }
 
-        public ImageTestClass(Stream stream)
+        public ImageTestClass(Image image, Stream imageStream, byte[] imageBytes, string imageUri)
         {
-            this.mStream = stream;
-        }
-
-        public ImageTestClass(ImageTestClass imageObject)
-        {
-            this.mImage = imageObject;
-        }
-
-        public ImageTestClass(byte[] imageBytes)
-        {
-            this.mBytes = imageBytes;
-        }
-
-        public ImageTestClass(string uriToImage)
-        {
-            this.mUri = uriToImage;
+            this.Image = image;
+            this.ImageStream = imageStream;
+            this.ImageBytes = imageBytes;
+            this.ImageUri = imageUri;
         }
     }
 }
