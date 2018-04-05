@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ApiExamples.TestData.TestClasses;
+using ApiExamples.NetCore.TestData.TestClasses;
 
 namespace ApiExamples.TestData
 {

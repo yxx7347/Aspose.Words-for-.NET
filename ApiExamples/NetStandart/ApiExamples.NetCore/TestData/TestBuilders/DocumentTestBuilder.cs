@@ -1,8 +1,8 @@
 ﻿using System.IO;
-using ApiExamples.TestData.TestClasses;
+using ApiExamples.NetCore.TestData.TestClasses;
 using Aspose.Words;
 
-namespace ApiExamples.TestData.TestBuilders
+namespace ApiExamples.NetCore.TestData.TestBuilders
 {
     public class DocumentTestBuilder : ApiExampleBase
     {

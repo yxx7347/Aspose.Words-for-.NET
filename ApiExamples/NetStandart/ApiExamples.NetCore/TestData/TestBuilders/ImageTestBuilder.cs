@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
 using System.IO;
-using ApiExamples.TestData.TestClasses;
+using ApiExamples.NetCore.TestData.TestClasses;
 
-namespace ApiExamples.TestData.TestBuilders
+namespace ApiExamples.NetCore.TestData.TestBuilders
 {
     public class ImageTestBuilder : ApiExampleBase
     {

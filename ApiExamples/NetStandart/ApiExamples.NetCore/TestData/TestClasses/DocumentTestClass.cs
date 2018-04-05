@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Aspose.Words;
 
-namespace ApiExamples.TestData.TestClasses
+namespace ApiExamples.NetCore.TestData.TestClasses
 {
     public class DocumentTestClass
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ApiExamples.TestData.TestClasses
+namespace ApiExamples.NetCore.TestData.TestClasses
 {
     public class ManagerTestClass
     {

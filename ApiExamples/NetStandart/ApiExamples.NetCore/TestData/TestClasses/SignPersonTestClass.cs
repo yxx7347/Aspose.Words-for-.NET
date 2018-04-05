@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ApiExamples.TestData.TestClasses
+namespace ApiExamples.NetCore.TestData.TestClasses
 {
     public class SignPersonTestClass
     {

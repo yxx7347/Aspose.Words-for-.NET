@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.IO;
 
-namespace ApiExamples.TestData.TestClasses
+namespace ApiExamples.NetCore.TestData.TestClasses
 {
     public class ImageTestClass
     {
