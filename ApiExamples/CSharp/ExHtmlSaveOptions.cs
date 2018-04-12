@@ -218,7 +218,7 @@ namespace ApiExamples
             saveOptions.ResourceFolder = "Resources";
             saveOptions.ResourceFolderAlias = "https://www.aspose.com/";
 
-            doc.Save(MyDir + @"\Artifacts\HtmlSaveOptions.ExportPageMargins Out.html", saveOptions);
+            doc.Save(MyDir + @"\Artifacts\HtmlSaveOptions.ExportPageMargins.html", saveOptions);
 
             string[] imageFiles = Directory.GetFiles(MyDir + @"\Artifacts\Resources\", "*.png", SearchOption.AllDirectories);
             Assert.AreEqual(3, imageFiles.Length);
@@ -229,7 +229,7 @@ namespace ApiExamples
             string[] cssFiles = Directory.GetFiles(MyDir + @"\Artifacts\Resources\", "*.css", SearchOption.AllDirectories);
             Assert.AreEqual(1, cssFiles.Length);
 
-            DocumentHelper.FindTextInFile(MyDir + @"\Artifacts\HtmlSaveOptions.ExportPageMargins Out.html", "<link href=\"https://www.aspose.com/HtmlSaveOptions.ExportPageMargins Out.css\"");
+            DocumentHelper.FindTextInFile(MyDir + @"\Artifacts\HtmlSaveOptions.ExportPageMargins.html", "<link href=\"https://www.aspose.com/HtmlSaveOptions.ExportPageMargins.css\"");
         }
 
         [Test]
@@ -243,7 +243,7 @@ namespace ApiExamples
             saveOptions.ExportFontResources = true;
             saveOptions.ExportFontsAsBase64 = true;
             
-            doc.Save(MyDir + @"\Artifacts\HtmlSaveOptions.ExportPageMargins Out.html", saveOptions);
+            doc.Save(MyDir + @"\Artifacts\HtmlSaveOptions.ExportPageMargins.html", saveOptions);
 }
         [TestCase(HtmlVersion.Html5)]
         [TestCase(HtmlVersion.Xhtml)]
@@ -270,14 +270,14 @@ namespace ApiExamples
             {
                 case false:
 
-                    doc.Save(MyDir + @"\Artifacts\DocumentExportFonts Out 1.html", saveOptions);
-                    Assert.IsNotEmpty(Directory.GetFiles(MyDir + @"\Artifacts\", "DocumentExportFonts Out 1.times.ttf", SearchOption.AllDirectories)); //Verify that the font has been added to the folder
+                    doc.Save(MyDir + @"\Artifacts\DocumentExportFonts 1.html", saveOptions);
+                    Assert.IsNotEmpty(Directory.GetFiles(MyDir + @"\Artifacts\", "DocumentExportFonts 1.times.ttf", SearchOption.AllDirectories)); //Verify that the font has been added to the folder
                     break;
 
                 case true:
 
-                    doc.Save(MyDir + @"\Artifacts\DocumentExportFonts Out 2.html", saveOptions);
-                    Assert.IsEmpty(Directory.GetFiles(MyDir + @"\Artifacts\", "DocumentExportFonts Out 2.times.ttf", SearchOption.AllDirectories)); //Verify that the font is not added to the folder
+                    doc.Save(MyDir + @"\Artifacts\DocumentExportFonts 2.html", saveOptions);
+                    Assert.IsEmpty(Directory.GetFiles(MyDir + @"\Artifacts\", "DocumentExportFonts 2.times.ttf", SearchOption.AllDirectories)); //Verify that the font is not added to the folder
                     break;
             }
         }
@@ -293,12 +293,12 @@ namespace ApiExamples
             saveOptions.ResourceFolder = MyDir + @"\Artifacts\Resources";
             saveOptions.ResourceFolderAlias = "http://example.com/resources";
 
-            doc.Save(MyDir + @"\Artifacts\HtmlSaveOptions.ResourceFolder Out.html", saveOptions);
+            doc.Save(MyDir + @"\Artifacts\HtmlSaveOptions.ResourceFolder.html", saveOptions);
 
-            Assert.IsNotEmpty(Directory.GetFiles(MyDir + @"\Artifacts\Resources", "HtmlSaveOptions.ResourceFolder Out.001.jpeg", SearchOption.AllDirectories));
-            Assert.IsNotEmpty(Directory.GetFiles(MyDir + @"\Artifacts\Resources", "HtmlSaveOptions.ResourceFolder Out.002.png", SearchOption.AllDirectories));
-            Assert.IsNotEmpty(Directory.GetFiles(MyDir + @"\Artifacts\Resources", "HtmlSaveOptions.ResourceFolder Out.calibri.ttf", SearchOption.AllDirectories));
-            Assert.IsNotEmpty(Directory.GetFiles(MyDir + @"\Artifacts\Resources", "HtmlSaveOptions.ResourceFolder Out.css", SearchOption.AllDirectories));
+            Assert.IsNotEmpty(Directory.GetFiles(MyDir + @"\Artifacts\Resources", "HtmlSaveOptions.ResourceFolder.001.jpeg", SearchOption.AllDirectories));
+            Assert.IsNotEmpty(Directory.GetFiles(MyDir + @"\Artifacts\Resources", "HtmlSaveOptions.ResourceFolder.002.png", SearchOption.AllDirectories));
+            Assert.IsNotEmpty(Directory.GetFiles(MyDir + @"\Artifacts\Resources", "HtmlSaveOptions.ResourceFolder.calibri.ttf", SearchOption.AllDirectories));
+            Assert.IsNotEmpty(Directory.GetFiles(MyDir + @"\Artifacts\Resources", "HtmlSaveOptions.ResourceFolder.css", SearchOption.AllDirectories));
 
         }
 
@@ -315,12 +315,12 @@ namespace ApiExamples
             saveOptions.ResourceFolder = MyDir + @"\Artifacts\Resources";
             saveOptions.ResourceFolderAlias = "http://example.com/resources";
 
-            doc.Save(MyDir + @"\Artifacts\HtmlSaveOptions.ResourceFolder Out.html", saveOptions);
+            doc.Save(MyDir + @"\Artifacts\HtmlSaveOptions.ResourceFolder.html", saveOptions);
 
-            Assert.IsNotEmpty(Directory.GetFiles(MyDir + @"\Artifacts\Images", "HtmlSaveOptions.ResourceFolder Out.001.jpeg", SearchOption.AllDirectories));
-            Assert.IsNotEmpty(Directory.GetFiles(MyDir + @"\Artifacts\Images", "HtmlSaveOptions.ResourceFolder Out.002.png", SearchOption.AllDirectories));
-            Assert.IsNotEmpty(Directory.GetFiles(MyDir + @"\Artifacts\Fonts", "HtmlSaveOptions.ResourceFolder Out.calibri.ttf", SearchOption.AllDirectories));
-            Assert.IsNotEmpty(Directory.GetFiles(MyDir + @"\Artifacts\Resources", "HtmlSaveOptions.ResourceFolder Out.css", SearchOption.AllDirectories));
+            Assert.IsNotEmpty(Directory.GetFiles(MyDir + @"\Artifacts\Images", "HtmlSaveOptions.ResourceFolder.001.jpeg", SearchOption.AllDirectories));
+            Assert.IsNotEmpty(Directory.GetFiles(MyDir + @"\Artifacts\Images", "HtmlSaveOptions.ResourceFolder.002.png", SearchOption.AllDirectories));
+            Assert.IsNotEmpty(Directory.GetFiles(MyDir + @"\Artifacts\Fonts", "HtmlSaveOptions.ResourceFolder.calibri.ttf", SearchOption.AllDirectories));
+            Assert.IsNotEmpty(Directory.GetFiles(MyDir + @"\Artifacts\Resources", "HtmlSaveOptions.ResourceFolder.css", SearchOption.AllDirectories));
         }
 
         [Test]
@@ -335,7 +335,7 @@ namespace ApiExamples
                         style='fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;' />
                   </svg> ");
 
-            builder.Document.Save(MyDir + @"\Artifacts\HtmlSaveOptions.MetafileFormat Out.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.Png });
+            builder.Document.Save(MyDir + @"\Artifacts\HtmlSaveOptions.MetafileFormat.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.Png });
         }
 
         [Test]
@@ -350,7 +350,7 @@ namespace ApiExamples
                         style='fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;' />
                   </svg> ");
 
-            builder.Document.Save(MyDir + @"\Artifacts\HtmlSaveOptions.MetafileFormat Out.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.Png });
+            builder.Document.Save(MyDir + @"\Artifacts\HtmlSaveOptions.MetafileFormat.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.Png });
         }
 
         [Test]
@@ -368,19 +368,23 @@ namespace ApiExamples
                     ch9//q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0
                     vr4MkhoXe0rZigAAAABJRU5ErkJggg=="" alt=""Red dot"" />");
 
-            builder.Document.Save(MyDir + @"\Artifacts\HtmlSaveOptions.MetafileFormat Out.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.EmfOrWmf });
+            builder.Document.Save(MyDir + @"\Artifacts\HtmlSaveOptions.MetafileFormat.html", new HtmlSaveOptions { MetafileFormat = HtmlMetafileFormat.EmfOrWmf });
         }
 
         [Test]
         public void CssClassNamesPrefix()
         {
+            //ExStart
+            //ExFor:HtmlSaveOptions.CssClassNamePrefix
+            //ExSummary: Shows how to specifies a prefix which is added to all CSS class names
             Document doc = new Document(MyDir + "HtmlSaveOptions.CssClassNamePrefix.docx");
 
             HtmlSaveOptions saveOptions = new HtmlSaveOptions();
             saveOptions.CssStyleSheetType = CssStyleSheetType.Embedded;
             saveOptions.CssClassNamePrefix = "aspose-";
             
-            doc.Save(MyDir + @"\Artifacts\HtmlSaveOptions.CssClassNamePrefix Out.html", saveOptions);
+            doc.Save(MyDir + @"\Artifacts\HtmlSaveOptions.CssClassNamePrefix.html", saveOptions);
+            //ExEnd
         }
 
         [Test]
@@ -399,7 +403,7 @@ namespace ApiExamples
             saveOptions.CssStyleSheetType = CssStyleSheetType.Embedded;
             saveOptions.CssClassNamePrefix = null;
 
-            doc.Save(MyDir + @"\Artifacts\HtmlSaveOptions.CssClassNamePrefix Out.html", saveOptions);
+            doc.Save(MyDir + @"\Artifacts\HtmlSaveOptions.CssClassNamePrefix.html", saveOptions);
         }
     }
 }

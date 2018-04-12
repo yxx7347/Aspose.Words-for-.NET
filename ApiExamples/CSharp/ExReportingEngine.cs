@@ -129,24 +129,46 @@ namespace ApiExamples
             Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\ReportingEngine.TestBubbleChart.docx", MyDir + @"\Golds\ReportingEngine.TestBubbleChart Gold.docx"));
         }
 
-        //!!Need to rework
         [Test]
         public void SetChartSeriesColorsDynamically()
         {
-            Aspose.Words.Document doc = new Aspose.Words.Document(MyDir + "ReportingEngine.SetColorDinamically.docx");
-            
+            Aspose.Words.Document doc = new Aspose.Words.Document(MyDir + "ReportingEngine.SetChartSeriesColorDinamically.docx");
+
             BuildReport(doc, Common.GetManagers(), "managers");
 
-            doc.Save(MyDir + @"\Artifacts\ReportingEngine.SetColorDinamically.docx");
+            doc.Save(MyDir + @"\Artifacts\ReportingEngine.SetChartSeriesColorDinamically.docx");
+
+            Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\ReportingEngine.SetChartSeriesColorDinamically.docx", MyDir + @"\Golds\ReportingEngine.SetChartSeriesColorDinamically Gold.docx"));
+        }
+
+        [Test]
+        public void SetPointColorsDynamically()
+        {
+            Aspose.Words.Document doc = new Aspose.Words.Document(MyDir + "ReportingEngine.SetPointColorDinamically.docx");
+
+            List<ColorItemTestClass> colors = new List<ColorItemTestClass>
+            {
+                new ColorItemTestBuilder().WithColorCodeAndValues("Black", Color.Black.ToArgb(), 1.0, 2.5, 3.5).Build(),
+                new ColorItemTestBuilder().WithColorCodeAndValues("Red", Color.Red.ToArgb(), 2.0, 4.0, 2.5).Build(),
+                new ColorItemTestBuilder().WithColorCodeAndValues("Green", Color.Green.ToArgb(), 0.5, 1.5, 2.5).Build(),
+                new ColorItemTestBuilder().WithColorCodeAndValues("Blue", Color.Blue.ToArgb(), 4.5, 3.5, 1.5).Build(),
+                new ColorItemTestBuilder().WithColorCodeAndValues("Yellow", Color.Yellow.ToArgb(), 5.0, 2.5, 1.5).Build()
+            };
+
+            BuildReport(doc, colors, "colorItems", new [] { typeof(ColorItemTestClass) });
+
+            doc.Save(MyDir + @"\Artifacts\ReportingEngine.SetPointColorDinamically.docx");
+
+            Assert.IsTrue(DocumentHelper.CompareDocs(MyDir + @"\Artifacts\ReportingEngine.SetPointColorDinamically.docx", MyDir + @"\Golds\ReportingEngine.SetPointColorDinamically Gold.docx"));
         }
 
         [Test]
         public void ConditionalExpressionForLeaveChartSeries()
         {
-            Aspose.Words.Document doc = new Aspose.Words.Document(MyDir + "ReportingEngine.TestRemoveChartSeries.docx");
-
             int condition = 3;
 
+            Aspose.Words.Document doc = new Aspose.Words.Document(MyDir + "ReportingEngine.TestRemoveChartSeries.docx");
+            
             BuildReport(doc, new object[] { Common.GetManagers(), condition }, new[] { "managers", "condition" });
 
             doc.Save(MyDir + @"\Artifacts\ReportingEngine.TestLeaveChartSeries.docx");
@@ -157,10 +179,10 @@ namespace ApiExamples
         [Test]
         public void ConditionalExpressionForRemoveChartSeries()
         {
-            Aspose.Words.Document doc = new Aspose.Words.Document(MyDir + "ReportingEngine.TestRemoveChartSeries.docx");
-
             int condition = 2;
 
+            Aspose.Words.Document doc = new Aspose.Words.Document(MyDir + "ReportingEngine.TestRemoveChartSeries.docx");
+            
             BuildReport(doc, new object[] { Common.GetManagers(), condition }, new[] { "managers", "condition" });
 
             doc.Save(MyDir + @"\Artifacts\ReportingEngine.TestRemoveChartSeries.docx");
@@ -263,7 +285,6 @@ namespace ApiExamples
         [Test]
         public void InsertDocumentDinamicallyByStream()
         {
-            // By stream
             Aspose.Words.Document template = DocumentHelper.CreateSimpleDocument("<<doc [src.DocumentStream]>>");
 
             DocumentTestClass docStream = new DocumentTestBuilder().WithDocumentStream(new FileStream(this.mDocument, FileMode.Open, FileAccess.Read)).Build();
@@ -373,9 +394,7 @@ namespace ApiExamples
 
             builder.Writeln("<<[new DateTime(2016, 1, 20).Month]>>");
 
-            ReportingEngine engine = new ReportingEngine();
-            engine.KnownTypes.Add(typeof(DateTime));
-            engine.BuildReport(doc, "");
+            BuildReport(doc, "", new []{ typeof(DateTime) });
 
             doc.Save(MyDir + @"\Artifacts\ReportingEngine.KnownTypes.docx");
 
@@ -550,6 +569,19 @@ namespace ApiExamples
         private static void BuildReport(Aspose.Words.Document document, object[] dataSource, string[] dataSourceName)
         {
             ReportingEngine engine = new ReportingEngine();
+            
+            engine.BuildReport(document, dataSource, dataSourceName);
+        }
+
+        private static void BuildReport(Aspose.Words.Document document, object dataSource, string dataSourceName, Type[] knownTypes)
+        {
+            ReportingEngine engine = new ReportingEngine();
+
+            foreach (Type knownType in knownTypes)
+            {
+                engine.KnownTypes.Add(knownType);
+            }
+
             engine.BuildReport(document, dataSource, dataSourceName);
         }
 
@@ -559,9 +591,15 @@ namespace ApiExamples
             engine.BuildReport(document, dataSource, dataSourceName);
         }
 
-        private static void BuildReport(Aspose.Words.Document document, object dataSource)
+        private static void BuildReport(Aspose.Words.Document document, object dataSource, Type[] knownTypes)
         {
             ReportingEngine engine = new ReportingEngine();
+
+            foreach (Type knownType in knownTypes)
+            {
+                engine.KnownTypes.Add(knownType);
+            }
+
             engine.BuildReport(document, dataSource);
         }
     }

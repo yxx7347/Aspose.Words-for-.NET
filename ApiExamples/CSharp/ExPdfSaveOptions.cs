@@ -228,32 +228,26 @@ namespace ApiExamples
             //ExEnd
         }
 
+        //Note: it works only for spaces. Why?
         [Test]
-        public void EscapeUri()
+        [TestCase(@"https://www.google.com/search?q= aspose", @"https://www.google.com/search?q=%20aspose", true)]
+        [TestCase(@"https://www.google.com/search?q=%20aspose", @"https://www.google.com/search?q=%20aspose", true)]
+        [TestCase(@"https://www.google.com/search?q= aspose", @"https://www.google.com/search?q= aspose", false)]
+        [TestCase(@"https://www.google.com/search?q=%20aspose", @"https://www.google.com/search?q=%20aspose", false)]
+        public void EscapeUri(string uri, string result, bool isEscaped)
         {
             //ExStart
-            //ExFor:
-            //ExSummary:
-            Document doc = new Document(MyDir + "PdfSaveOptions.EscapedUri.docx");
-
-            PdfSaveOptions options = new PdfSaveOptions();
-            options.EscapeUri = true;
-
-            doc.Save(MyDir + @"\Artifacts\PdfSaveOptions.EscapedUri Out.pdf", options);
-            //ExEnd
-        }
-
-        [Test]
-        [TestCase(@"https://www.google.com/search?q= aspose", @"https://www.google.com/search?q=%20aspose")]
-        public void EscapeUri(string uri, string result)
-        {
+            //ExFor:PdfSaveOptions.EscapeUri
+            //ExSummary: Shows how to escape hyperlinks or not in the document.
             DocumentBuilder builder = new DocumentBuilder();
             builder.InsertHyperlink("Testlink", uri, false);
 
+            // Set this property to false if you are sure that hyperlinks in document's model are already escaped
             PdfSaveOptions options = new PdfSaveOptions();
-            options.EscapeUri = true;
+            options.EscapeUri = isEscaped;
 
             builder.Document.Save(MyDir + @"\Artifacts\PdfSaveOptions.EscapedUri Out.pdf", options);
+            //ExEnd
 
             Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(MyDir + @"\Artifacts\PdfSaveOptions.EscapedUri Out.pdf");
 
@@ -265,7 +259,7 @@ namespace ApiExamples
             GoToURIAction action = (GoToURIAction)linkAnnot.Action;
             string uriText = action.URI;
 
-            Assert.AreEqual(@"https://www.google.com/search?q=%20aspose", uriText);
+            Assert.AreEqual(result, uriText);
             //ExEnd
         }
 
