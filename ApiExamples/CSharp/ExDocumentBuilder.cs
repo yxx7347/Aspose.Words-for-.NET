@@ -1944,7 +1944,8 @@ namespace ApiExamples
         }
 
         [Test]
-        public void InsertDocument() //Bug with content? Rework gold file.
+        [Ignore("Bug with content? Rework gold file.")]
+        public void InsertDocument()
         {
             //ExStart
             //ExFor:DocumentBuilder.InsertDocument(Document, ImportFormatMode)

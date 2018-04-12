@@ -285,7 +285,7 @@ namespace ApiExamples
             PdfSaveOptions saveOptions = new PdfSaveOptions();
             saveOptions.MetafileRenderingOptions = metafileRenderingOptions;
             
-            doc.Save(MyDir + "PdfSaveOptions.HandleRasterWarnings Out.pdf", saveOptions);
+            doc.Save(MyDir + @"\Artifacts\PdfSaveOptions.HandleRasterWarnings.pdf", saveOptions);
 
             Assert.AreEqual(1, callback.mWarnings.Count);
             Assert.True(callback.mWarnings[0].Description.Contains("R2_XORPEN"));
